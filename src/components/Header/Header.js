@@ -1,16 +1,16 @@
 import React from "react";
 import "./Header.css";
-import logoMain from "";
-import avatarDefault from "";
+import logoMain from "../../images/Logo.svg";
+import avatar from "../../images/Ellipse 18.png";
 
-const Header = ({ weatherData }) => {
+const Header = ({ weatherData, handleAddClick }) => {
   if (!weatherData) return null;
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
   const userName = "Terrence Tegegne";
-  const avatar = "";
+  // const avatar = "";
 
   return (
     <header className="header">
@@ -24,13 +24,15 @@ const Header = ({ weatherData }) => {
         <nav className="navigation">
           <ul className="navigation__container">
             <li>
-              <button className="navigation__button">+ Add clothes</button>
+              <button className="navigation__button" onClick={handleAddClick}>
+                + Add clothes
+              </button>
             </li>
             <li>
-              <div className="navigation__link">
-                {userName}
-                {avatar}
-              </div>
+              <div className="navigation__link">{userName}</div>
+            </li>
+            <li>
+              <img src={avatar} alt="avatar" className="header__avatar" />
             </li>
           </ul>
         </nav>

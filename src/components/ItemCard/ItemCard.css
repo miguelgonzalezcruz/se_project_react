@@ -1,0 +1,85 @@
+.card {
+    width: 325px;
+    height: 328px;
+    background-color: #E9E9E9;
+    background-image: url("../../images/Shorts.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border-radius: 20px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    margin: auto;
+    position: relative;
+  }
+
+  .card__image {
+    width: 282px;
+    height: 282px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+
+  .card__info {
+    display: flex;
+   padding-left: 112px;
+   padding-right: 112px;
+   padding-top: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.6)
+  }
+
+.card__title-container {
+background-color: #fff;
+border-radius: 4px;
+padding-left: 12px;
+padding-right: 12px;
+padding-top: 2px;
+padding-bottom: 2px;
+
+gap: 8px;
+
+
+}
+
+.card__like-container {
+padding-left: 10px;
+display: flex;
+
+}
+  .card__like {
+    width: 21px;
+    height: 19px;
+    cursor: pointer;
+    background-image: url("../../images/heart_active.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+    margin: 0;
+    border: none;
+    padding: 0;
+    transition: opacity, 0.1s linear;
+  }
+
+  .card__like:hover {
+    opacity: 0.5;
+  }
+  
+  .card__like_clicked {
+    background-image: url("../../images/heart_active.svg");
+  }
+  

@@ -18,7 +18,8 @@ const filterDataFromTheApi = (data) => {
   const weather = {};
   weather.city = data.location.name;
   weather.temperature = data.current.temp_f;
-  // asegurarse que la llamada al icon es correcta
+  weather.icontext = data.current.condition.text;
+  weather.isday = data.current.is_day;
   return weather;
 };
 

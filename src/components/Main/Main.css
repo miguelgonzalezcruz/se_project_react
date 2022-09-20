@@ -1,0 +1,34 @@
+.main {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main__clothes {
+    padding-top: 34px;
+}
+
+.main__info {
+
+}
+
+.main__description-container {
+
+}
+
+.main__description {
+margin-top: 0;
+margin-bottom: 0;
+
+}
+
+.main__items {
+   list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
