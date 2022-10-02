@@ -1,0 +1,42 @@
+.weathercard {
+  display: flex;
+}
+
+.weathercard__background-day {
+  background-color: #00a4ff;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  padding-left: 16px;
+  position: relative;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 1360px;
+}
+
+.weathercard__background-night {
+  background-color: #286897;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  padding-left: 16px;
+  position: relative;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 1360px;
+}
+
+.weathercard__temperature {
+  color: #fff;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.weathercard__icon {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+}

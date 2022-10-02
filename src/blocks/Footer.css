@@ -1,0 +1,14 @@
+.footer {
+  margin: 0 40px 0 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__text {
+  font-family: "Cabinet Grotesk";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+}

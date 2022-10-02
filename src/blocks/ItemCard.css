@@ -1,0 +1,74 @@
+.card__wrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 325px;
+  height: 328px;
+  background-color: #e9e9e9;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+
+.card {
+  display: flex;
+  padding-left: 112px;
+  padding-right: 112px;
+  padding-top: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__title-container {
+  background-color: #fff;
+  border-radius: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.card__image {
+  object-fit: cover;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.card__like {
+  width: 21px;
+  height: 19px;
+  cursor: pointer;
+  background-image: url("../images/like-icon.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: transparent;
+  margin: 0;
+  border: none;
+  padding: 0;
+  transition: opacity, 0.1s linear;
+}
+
+.card__like-container {
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  z-index: 1;
+}

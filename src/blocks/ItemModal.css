@@ -1,0 +1,74 @@
+.card__popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup_open {
+  visibility: visible;
+  z-index: 3;
+}
+
+.card__popup-container {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  background-color: #ffff;
+  width: 498px;
+  height: 610px;
+  border-radius: 16px;
+}
+
+.card__popup-image-container {
+  width: 498px;
+  height: 498px;
+}
+
+.card__popup-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.card__popup-description {
+  font-family: "Cabinet Grotesk";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000;
+  margin: 20px 0 0 32px;
+}
+
+.card__popup-description_temperature {
+  font-family: "Cabinet Grotesk";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000;
+  margin: 12px 0 32px 32px;
+}
+
+.card__popup-close {
+  position: absolute;
+  background-image: url("../images/close-icon-white.svg");
+  width: 14px;
+  height: 14px;
+  top: 27px;
+  right: 27px;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
