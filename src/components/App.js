@@ -14,42 +14,50 @@ import { defaultClothingItems } from "../utils/defaultClothingItems";
 
 function App() {
   const [weatherInfo, setWeatherInfo] = React.useState({});
-  const [popupActive, setPopupActive] = React.useState(null);
-  const [selectCard, setSelectedCard] = React.useState({});
+  const [isPopupActive, setIsPopupActive] = React.useState(null);
+  const [isAddClothingPopupActive, setIAddClothingPopupActive] =
+    React.useState(null);
+  const [selectedCard, setSelectedCard] = React.useState({});
   const [defaultClothing, setDefaultClothing] = React.useState([]);
 
   const handleAddClick = () => {
-    setPopupActive("create-garment");
+    setIAddClothingPopupActive("create-garment");
   };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
-    setPopupActive("preview-card");
+    setIsPopupActive("preview-card");
   };
 
   const handleClose = () => {
-    setPopupActive(null);
+    setIsPopupActive(null);
+    setIAddClothingPopupActive(null);
   };
 
   const handleCloseEsc = () => {
-    setPopupActive();
+    setIsPopupActive();
+    setIAddClothingPopupActive();
   };
 
   React.useEffect(() => {
     const close = (e) => {
       if (e.key === "Escape") {
         handleCloseEsc();
+        setIAddClothingPopupActive();
       }
     };
-    window.addEventListener("keydown", close);
+    if (isPopupActive || isAddClothingPopupActive) {
+      window.addEventListener("keydown", close);
+    }
     return () => {
       window.removeEventListener("keydown", close);
     };
-  }, []);
+  }, [isAddClothingPopupActive, isPopupActive]);
 
   const handleCloseEvent = (event) => {
     if (event.target === event.currentTarget) {
-      setPopupActive(null);
+      setIsPopupActive(null);
+      setIAddClothingPopupActive(null);
     }
   };
 
@@ -78,7 +86,7 @@ function App() {
         />
         <Footer />
         <ModalWithForm
-          isOpen={popupActive === "create-garment"}
+          isOpen={isAddClothingPopupActive}
           title="New garment"
           name="create-garment"
           buttonText="Add garment"
@@ -133,9 +141,9 @@ function App() {
         </ModalWithForm>
 
         <ItemModal
-          isOpen={popupActive === "preview-card"}
+          isOpen={isPopupActive}
           name="preview-card"
-          card={selectCard}
+          card={selectedCard}
           onClose={handleClose}
           closeEsc={handleCloseEsc}
           closePopup={handleCloseEvent}
