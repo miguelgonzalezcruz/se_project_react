@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import ModalWithForm from "./ModalWithForm";
@@ -13,37 +13,36 @@ import { secretKey, location } from "../utils/constants";
 import { defaultClothingItems } from "../utils/defaultClothingItems";
 
 function App() {
-  const [weatherInfo, setWeatherInfo] = React.useState({});
-  const [isPopupActive, setIsPopupActive] = React.useState(null);
-  const [isAddClothingPopupActive, setIAddClothingPopupActive] =
-    React.useState(null);
-  const [selectedCard, setSelectedCard] = React.useState({});
-  const [defaultClothing, setDefaultClothing] = React.useState([]);
+  const [weatherInfo, setWeatherInfo] = useState({});
+  const [isPopupActive, setIsPopupActive] = useState(false);
+  const [isAddClothingPopupActive, setIsAddClothingPopupActive] =
+    useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
+  const [defaultClothing, setDefaultClothing] = useState([]);
 
   const handleAddClick = () => {
-    setIAddClothingPopupActive("create-garment");
+    setIsAddClothingPopupActive(true);
   };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
-    setIsPopupActive("preview-card");
+    setIsPopupActive(true);
   };
 
   const handleClose = () => {
-    setIsPopupActive(null);
-    setIAddClothingPopupActive(null);
+    setIsPopupActive(false);
+    setIsAddClothingPopupActive(false);
   };
 
   const handleCloseEsc = () => {
-    setIsPopupActive();
-    setIAddClothingPopupActive();
+    setIsPopupActive(false);
+    setIsAddClothingPopupActive(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const close = (e) => {
       if (e.key === "Escape") {
         handleCloseEsc();
-        setIAddClothingPopupActive();
       }
     };
     if (isPopupActive || isAddClothingPopupActive) {
@@ -57,7 +56,7 @@ function App() {
   const handleCloseEvent = (event) => {
     if (event.target === event.currentTarget) {
       setIsPopupActive(null);
-      setIAddClothingPopupActive(null);
+      setIsAddClothingPopupActive(null);
     }
   };
 
