@@ -79,4 +79,8 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 25px;
+  text-decoration: none;
+  color: #000000;
+  display: flex;
+  align-items: center;
 }

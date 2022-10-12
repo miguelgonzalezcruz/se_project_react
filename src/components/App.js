@@ -92,17 +92,20 @@ function App() {
       >
         <div className="page__content">
           <Header weather={weatherInfo} handleAddClick={handleAddClick} />
+          <Route exact path="/">
+            <Main
+              weather={weatherInfo}
+              cards={defaultClothing}
+              handleCardClick={handleCardClick}
+            />
+          </Route>
 
-          <Main
-            weather={weatherInfo}
-            cards={defaultClothing}
-            handleCardClick={handleCardClick}
-          />
-
-          <Profile
-            handleCardClick={handleCardClick}
-            handleAddClick={handleAddClick}
-          />
+          <Route exact path="/profile">
+            <Profile
+              handleCardClick={handleCardClick}
+              handleAddClick={handleAddClick}
+            />
+          </Route>
 
           <Footer />
           <ModalWithForm
