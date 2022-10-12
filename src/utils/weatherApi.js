@@ -32,19 +32,19 @@ const witchWeatherType = (icon) => {
     return "cloudy";
   } else if (
     icon === "Mist" ||
-    icon.contains("rain") ||
-    icon.contains("drizzle")
+    icon.includes("rain") ||
+    icon.includes("drizzle")
   ) {
     return "rain";
   } else if (
-    icon.contains("snow") ||
-    icon.contains("sleet") ||
-    icon.contains("ice")
+    icon.includes("snow") ||
+    icon.includes("sleet") ||
+    icon.includes("ice")
   ) {
     return "snow";
-  } else if (icon.contains("fog")) {
+  } else if (icon.includes("fog")) {
     return "fog";
-  } else if (icon.contains("with thunder")) {
+  } else if (icon.includes("with thunder")) {
     return "storm";
   }
 };
@@ -59,7 +59,6 @@ const filterDataFromTheApi = (data) => {
   weather.temperatureC = data.current.temp_c;
   weather.isday = data.current.is_day;
   weather.card = witchWeatherType(data.current.condition.text);
-  console.log(data.current.condition.text);
   return weather;
 };
 
