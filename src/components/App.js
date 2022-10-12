@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Route } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Profile from "./Profile";
@@ -91,12 +92,18 @@ function App() {
       >
         <div className="page__content">
           <Header weather={weatherInfo} handleAddClick={handleAddClick} />
+
           <Main
             weather={weatherInfo}
             cards={defaultClothing}
             handleCardClick={handleCardClick}
           />
-          <Profile handleCardClick={handleCardClick} />
+
+          <Profile
+            handleCardClick={handleCardClick}
+            handleAddClick={handleAddClick}
+          />
+
           <Footer />
           <ModalWithForm
             isOpen={isAddClothingPopupActive}

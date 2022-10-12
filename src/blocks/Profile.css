@@ -16,6 +16,8 @@
   display: flex;
   font-weight: 700;
   font-size: 20px;
+  line-height: 25px;
+  justify-content: space-between;
 }
 
 .user-profile__sidebar {
@@ -27,7 +29,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 20px;
+}
+
+.username {
+  margin-left: 16px;
 }
 
 .user-profile__content {
@@ -41,12 +46,26 @@
   justify-content: space-between;
   margin-bottom: 20px;
   justify-content: start;
+  margin-bottom: 0;
+}
+
+.add-button {
+  border: none;
+  background: transparent;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-family: "Cabinet Grotesk", "Arial", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
 }
 .user-profile__cards {
-  list-style: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px 20px;
-  margin-top: 0;
-  margin-bottom: 0;
 }
