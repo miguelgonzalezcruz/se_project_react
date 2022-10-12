@@ -1,5 +1,7 @@
 import React from "react";
+import { useContext } from "react";
 import "../blocks/WeatherCard.css";
+import CurrentTemperatureUnitContext from "../utils/CurrentTemperatureUnitContext";
 
 // weather Card Icons
 
@@ -36,6 +38,8 @@ function WeatherCard({ weather }) {
   const isStormy = isStormyNow(weather.card);
   const isFoggy = isFoggyNow(weather.card);
 
+  const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+
   const stylesForWeatherCard = timeNow
     ? "weathercard__background-day"
     : "weathercard__background-night";
@@ -68,7 +72,12 @@ function WeatherCard({ weather }) {
   return (
     <section className="weathercard">
       <div className={stylesForWeatherCard}>
-        <p className="weathercard__temperature">{weather.temperature}°F</p>
+        <p className="weathercard__temperature">
+          {currentTemperatureUnit === "F"
+            ? weather.temperature
+            : weather.temperatureC}
+        </p>
+        <p className="weathercard__temperature">º{currentTemperatureUnit}</p>
         <img
           src={iconFromWeather}
           className="weathercard__icon"

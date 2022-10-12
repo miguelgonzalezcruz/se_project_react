@@ -21,6 +21,8 @@
 .header__container {
   display: flex;
   align-items: center;
+  width: 100%;
+  justify-content: start;
 }
 
 .header__logo {
@@ -48,6 +50,8 @@
   display: flex;
   list-style-type: none;
   align-items: center;
+  width: 100%;
+  justify-content: end;
 }
 
 .navigation__button {

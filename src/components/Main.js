@@ -2,9 +2,12 @@ import WeatherCard from "./WeatherCard";
 import ItemCard from "./ItemCard";
 import "../blocks/Main.css";
 import { weatherType } from "../utils/weatherApi";
+import { useContext } from "react";
+import CurrentTemperatureUnitContext from "../utils/CurrentTemperatureUnitContext";
 
 function Main({ weather, cards, handleCardClick }) {
   const weatherToday = weather.temperature;
+  const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
   return (
     <main className="main">
@@ -12,7 +15,11 @@ function Main({ weather, cards, handleCardClick }) {
         <WeatherCard weather={weather} />
       </section>
       <p className="main__description">
-        Today is {weather.temperature}ºF / You may want to wear:
+        Today is{" "}
+        {currentTemperatureUnit === "F"
+          ? weather.temperature
+          : weather.temperatureC}{" "}
+        º{currentTemperatureUnit} / You may want to wear:
       </p>
       <section className="main__clothes">
         <div className="main__cards">

@@ -1,0 +1,68 @@
+.toggleswitch {
+  width: 100%;
+  max-width: 56px;
+}
+
+.toggleswitch__wrapper {
+  position: relative;
+}
+
+.toggleswitch__checkbox {
+  margin: 0;
+}
+
+.toggleswitch__checkbox-hide {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.toggleswitch__checkbox-view {
+  display: flex;
+  width: 100%;
+  height: 28px;
+  cursor: pointer;
+}
+
+.toggleswitch__checkbox-view::before {
+  width: 100%;
+  height: 28px;
+  cursor: pointer;
+  content: "C";
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #fff;
+  border: 2px solid #7e7e7e;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transition: linear 0.1s;
+}
+
+.toggleswitch__checkbox-view::after {
+  cursor: pointer;
+  content: "F";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: linear 0.1s;
+}
+
+.toggleswitch__checkbox-hide:checked ~ .toggleswitch__checkbox-view::before {
+  content: "F";
+  justify-content: flex-start;
+}
+
+.toggleswitch__checkbox-hide:checked ~ .toggleswitch__checkbox-view::after {
+  content: "C";
+  left: 28px;
+}

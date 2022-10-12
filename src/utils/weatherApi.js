@@ -56,8 +56,10 @@ const filterDataFromTheApi = (data) => {
   const weather = {};
   weather.city = data.location.name;
   weather.temperature = data.current.temp_f;
+  weather.temperatureC = data.current.temp_c;
   weather.isday = data.current.is_day;
   weather.card = witchWeatherType(data.current.condition.text);
+  console.log(data.current.condition.text);
   return weather;
 };
 

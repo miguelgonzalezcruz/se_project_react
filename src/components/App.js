@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Profile from "./Profile";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import Footer from "./Footer";
@@ -12,6 +13,8 @@ import { secretKey, location } from "../utils/constants";
 
 import { defaultClothingItems } from "../utils/defaultClothingItems";
 
+import CurrentTemperatureUnitContext from "../utils/CurrentTemperatureUnitContext";
+
 function App() {
   const [weatherInfo, setWeatherInfo] = useState({});
   const [isPopupActive, setIsPopupActive] = useState(false);
@@ -19,6 +22,7 @@ function App() {
     useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [defaultClothing, setDefaultClothing] = useState([]);
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   const handleAddClick = () => {
     setIsAddClothingPopupActive(true);
@@ -74,80 +78,93 @@ function App() {
     setDefaultClothing(defaultClothingItems);
   }, []);
 
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
+  };
+
   return (
     <div className="page">
-      <div className="page__content">
-        <Header weather={weatherInfo} handleAddClick={handleAddClick} />
-        <Main
-          weather={weatherInfo}
-          cards={defaultClothing}
-          handleCardClick={handleCardClick}
-        />
-        <Footer />
-        <ModalWithForm
-          isOpen={isAddClothingPopupActive}
-          title="New garment"
-          name="create-garment"
-          buttonText="Add garment"
-          onClose={handleClose}
-          closeEsc={handleCloseEsc}
-          closePopup={handleCloseEvent}
-        >
-          <label className="popup__input-label">Name</label>
-          <input
-            className="popup__input"
-            type="text"
-            name="name"
-            placeholder="Name"
-            required
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      >
+        <div className="page__content">
+          <Header weather={weatherInfo} handleAddClick={handleAddClick} />
+          <Main
+            weather={weatherInfo}
+            cards={defaultClothing}
+            handleCardClick={handleCardClick}
           />
-          <label className="popup__input-label">Image</label>
-          <input
-            className="popup__input"
-            type="url"
-            name="image"
-            placeholder="Image URL"
-            required
-          />
-          <label className="popup__input-title">Select the weather type</label>
-          <label className="popup__input-text" htmlFor="hot">
+          <Profile handleCardClick={handleCardClick} />
+          <Footer />
+          <ModalWithForm
+            isOpen={isAddClothingPopupActive}
+            title="New garment"
+            name="create-garment"
+            buttonText="Add garment"
+            onClose={handleClose}
+            closeEsc={handleCloseEsc}
+            closePopup={handleCloseEvent}
+          >
+            <label className="popup__input-label">Name</label>
             <input
-              className="popup__input-radio"
-              type="radio"
-              id="hot"
-              value="hot"
+              className="popup__input"
+              type="text"
+              name="name"
+              placeholder="Name"
+              required
             />
-            Hot
-          </label>
-          <label className="popup__input-text" htmlFor="warm">
+            <label className="popup__input-label">Image</label>
             <input
-              className="popup__input-radio"
-              type="radio"
-              id="warm"
-              value="warm"
+              className="popup__input"
+              type="url"
+              name="image"
+              placeholder="Image URL"
+              required
             />
-            Warm
-          </label>
-          <label className="popup__input-text" htmlFor="cold">
-            <input
-              className="popup__input-radio"
-              type="radio"
-              id="cold"
-              value="cold"
-            />
-            Cold
-          </label>
-        </ModalWithForm>
+            <label className="popup__input-title">
+              Select the weather type
+            </label>
+            <label className="popup__input-text" htmlFor="hot">
+              <input
+                className="popup__input-radio"
+                type="radio"
+                id="hot"
+                value="hot"
+              />
+              Hot
+            </label>
+            <label className="popup__input-text" htmlFor="warm">
+              <input
+                className="popup__input-radio"
+                type="radio"
+                id="warm"
+                value="warm"
+              />
+              Warm
+            </label>
+            <label className="popup__input-text" htmlFor="cold">
+              <input
+                className="popup__input-radio"
+                type="radio"
+                id="cold"
+                value="cold"
+              />
+              Cold
+            </label>
+          </ModalWithForm>
 
-        <ItemModal
-          isOpen={isPopupActive}
-          name="preview-card"
-          card={selectedCard}
-          onClose={handleClose}
-          closeEsc={handleCloseEsc}
-          closePopup={handleCloseEvent}
-        />
-      </div>
+          <ItemModal
+            isOpen={isPopupActive}
+            name="preview-card"
+            card={selectedCard}
+            onClose={handleClose}
+            closeEsc={handleCloseEsc}
+            closePopup={handleCloseEvent}
+          />
+        </div>
+      </CurrentTemperatureUnitContext.Provider>
     </div>
   );
 }

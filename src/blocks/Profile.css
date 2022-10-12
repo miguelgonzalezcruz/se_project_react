@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Cabinet Grotesk";
+  font-weight: 700;
+  src: url("../fonts/CabinetGrotesk-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("../fonts/CabinetGrotesk-Medium.woff") format("woff");
+  font-weight: 500;
+}
+
+.user-profile {
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.user-profile__sidebar {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar__row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-profile__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-profile__content_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  justify-content: start;
+}
+.user-profile__cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
