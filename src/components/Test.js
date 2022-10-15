@@ -49,7 +49,12 @@ function ModalWithForm({
       onClick={closePopup}
     >
       <div className="popup__content">
-        <form className="popup__form" name={name} noValidate>
+        <form
+          className="popup__form"
+          name={name}
+          onKeyDown={closeEsc}
+          noValidate
+        >
           <h2 className="popup__title">{title}</h2>
           <label className="popup__input-label">Name</label>
           <input
@@ -76,8 +81,8 @@ function ModalWithForm({
             <input
               className="popup__input-radio"
               type="radio"
-              id="hot"
-              value="hot"
+              name="weather"
+              value={weatherValue}
               onChange={handleWeatherChange}
               checked={weatherValue === "hot"}
             />
@@ -106,7 +111,7 @@ function ModalWithForm({
             Cold
           </label>
           <button
-            className="popup__submit"
+            className="popup__button"
             type="submit"
             onClick={handleSubmit}
             disabled={!nameValue || !imageURLValue || !weatherValue}

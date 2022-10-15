@@ -5,7 +5,9 @@ import Main from "./Main";
 import Profile from "./Profile";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
+import AddItemModal from "./AddItemModal";
 import Footer from "./Footer";
+import { getItemList, addItem } from "../utils/clothesApi.js";
 import "../blocks/App.css";
 
 import { getForecastWeather, filterDataFromTheApi } from "../utils/weatherApi";
@@ -44,6 +46,14 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
+  const handleAddItemSubmit = (name, weather, imageURL) => {
+    addItem({ name, weather, imageURL })
+      .then((newItem) => {
+        setDefaultClothing([newItem, ...defaultClothing]);
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     const close = (e) => {
       if (e.key === "Escape") {
@@ -65,7 +75,7 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (location.latitude && location.longitude) {
       getForecastWeather(secretKey, location)
         .then((data) => {
@@ -75,7 +85,15 @@ function App() {
     }
   }, []);
 
-  React.useEffect(() => {
+  // useEffect(() => {
+  //   getItemList()
+  //     .then((items) => {
+  //       setDefaultClothing(items);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+  useEffect(() => {
     setDefaultClothing(defaultClothingItems);
   }, []);
 
@@ -116,55 +134,8 @@ function App() {
             onClose={handleClose}
             closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
-          >
-            <label className="popup__input-label">Name</label>
-            <input
-              className="popup__input"
-              type="text"
-              name="name"
-              placeholder="Name"
-              required
-            />
-            <label className="popup__input-label">Image</label>
-            <input
-              className="popup__input"
-              type="url"
-              name="image"
-              placeholder="Image URL"
-              required
-            />
-            <label className="popup__input-title">
-              Select the weather type
-            </label>
-            <label className="popup__input-text" htmlFor="hot">
-              <input
-                className="popup__input-radio"
-                type="radio"
-                id="hot"
-                value="hot"
-              />
-              Hot
-            </label>
-            <label className="popup__input-text" htmlFor="warm">
-              <input
-                className="popup__input-radio"
-                type="radio"
-                id="warm"
-                value="warm"
-              />
-              Warm
-            </label>
-            <label className="popup__input-text" htmlFor="cold">
-              <input
-                className="popup__input-radio"
-                type="radio"
-                id="cold"
-                value="cold"
-              />
-              Cold
-            </label>
-          </ModalWithForm>
-
+            onAddItem={handleAddItemSubmit}
+          />
           <ItemModal
             isOpen={isPopupActive}
             name="preview-card"
@@ -172,6 +143,13 @@ function App() {
             onClose={handleClose}
             closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
+          />
+          <AddItemModal
+            isOpen={isAddClothingPopupActive}
+            onClose={handleClose}
+            closeEsc={handleCloseEsc}
+            closePopup={handleCloseEvent}
+            onAddItem={handleAddItemSubmit}
           />
         </div>
       </CurrentTemperatureUnitContext.Provider>
