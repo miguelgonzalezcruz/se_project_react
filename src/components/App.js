@@ -7,7 +7,7 @@ import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import AddItemModal from "./AddItemModal";
 import Footer from "./Footer";
-import { getItemList, addItem } from "../utils/clothesApi.js";
+import { getItems, addItems, removeItems, baseURL } from "../utils/api.js";
 import "../blocks/App.css";
 
 import { getForecastWeather, filterDataFromTheApi } from "../utils/weatherApi";
@@ -46,8 +46,8 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
-  const handleAddItemSubmit = (name, weather, imageURL) => {
-    addItem({ name, weather, imageURL })
+  const handleAddItemSubmit = (name, imageUrl, weather) => {
+    addItems({ name, imageUrl, weather })
       .then((newItem) => {
         setDefaultClothing([newItem, ...defaultClothing]);
       })
@@ -85,13 +85,13 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   getItemList()
-  //     .then((items) => {
-  //       setDefaultClothing(items);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    getItems(`${baseURL}`)
+      .then((items) => {
+        setDefaultClothing(items);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     setDefaultClothing(defaultClothingItems);
@@ -101,6 +101,10 @@ function App() {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
+  };
+
+  const handleAddItemModal = () => {
+    setIsAddClothingPopupActive(true);
   };
 
   return (
@@ -122,6 +126,9 @@ function App() {
             <Profile
               handleCardClick={handleCardClick}
               handleAddClick={handleAddClick}
+              weather={weatherInfo}
+              cards={defaultClothing}
+              handleAddItemModal={handleAddItemModal}
             />
           </Route>
 

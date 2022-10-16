@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
 import { defaultClothingItems } from "../utils/defaultClothingItems";
 
-const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc }) => {
+const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
   const [name, setName] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const [weather, setWeather] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     setName("");
-    setImageURL("");
+    setImageUrl("");
     setWeather("");
   }, [isOpen]);
 
@@ -18,7 +18,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc }) => {
   };
 
   const handleImageURLChange = (e) => {
-    setImageURL(e.target.value);
+    setImageUrl(e.target.value);
   };
 
   const handleWeatherChange = (e) => {
@@ -26,8 +26,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc }) => {
   };
 
   function handleSubmit(e) {
-    const newItem = { name, weather, imageURL };
-    defaultClothingItems.push(newItem);
+    e.preventDefault();
+    onAddItem({ name, weather, imageUrl });
     onClose();
   }
 
@@ -40,7 +40,10 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc }) => {
       onClose={onClose}
       closeEsc={closeEsc}
       closePopup={closePopup}
-      onAddItem={handleSubmit}
+      onAddItem={onAddItem}
+      handleSubmit={handleSubmit}
+      handleWeather={handleWeatherChange}
+      handleImageChange={handleImageURLChange}
     >
       <label className="popup__input-label">Name</label>
       <input
@@ -60,7 +63,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc }) => {
         placeholder="Image URL"
         required
         onChange={handleImageURLChange}
-        value={imageURL}
+        value={imageUrl}
       />
       <label className="popup__input-title">Select the weather type</label>
       <label className="popup__input-text" htmlFor="hot">
