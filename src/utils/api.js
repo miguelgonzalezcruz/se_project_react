@@ -4,8 +4,9 @@ const baseURL =
 const handleApiResponse = (res) => {
   if (res.ok) {
     return res.json();
+  } else {
+    return Promise.reject(`Error: ${res.status}`);
   }
-  return Promise.reject(`Error: ${res.status}`);
 };
 
 const getItems = (baseURL) => {
@@ -17,14 +18,17 @@ const getItems = (baseURL) => {
   }).then(handleApiResponse);
 };
 
-const addItems = (baseURL, name, imageUrl, weather) => {
-  return fetch(`${baseURL}/items`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(name, imageUrl, weather),
-  }).then(handleApiResponse);
+const addItems = (name, imageUrl, weather) => {
+  return fetch(
+    `https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react/items`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(name, imageUrl, weather),
+    }
+  ).then(handleApiResponse);
 };
 
 const removeItems = (baseURL, id) => {

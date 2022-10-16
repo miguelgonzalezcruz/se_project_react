@@ -27,7 +27,7 @@ function Main({ weather, cards, handleCardClick }) {
             .filter((card) => card.weather === weatherType(weatherToday))
             .map((currentCard) => (
               <ItemCard
-                key={currentCard._id}
+                key={currentCard.id}
                 card={currentCard}
                 cardClick={() => handleCardClick(currentCard)}
               />

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
-import { defaultClothingItems } from "../utils/defaultClothingItems";
 
 const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
   const [name, setName] = useState("");
@@ -27,7 +26,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddItem({ name, weather, imageUrl });
+    onAddItem({ name, imageUrl, weather });
     onClose();
   }
 
