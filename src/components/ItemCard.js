@@ -17,6 +17,7 @@ function ItemCard({ card, cardClick }) {
         key={card.id}
         alt={card.name}
         onClick={cardClick}
+        name={card.name}
       />
     </div>
   );

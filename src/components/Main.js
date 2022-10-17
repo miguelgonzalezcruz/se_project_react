@@ -1,3 +1,4 @@
+import React from "react";
 import WeatherCard from "./WeatherCard";
 import ItemCard from "./ItemCard";
 import "../blocks/Main.css";

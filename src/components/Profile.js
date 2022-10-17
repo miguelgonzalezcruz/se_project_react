@@ -5,7 +5,7 @@ import avatar from "../images/Default-Avatar.png";
 import { defaultClothingItems } from "../utils/defaultClothingItems";
 import UserItemsList from "./UserItemsList";
 
-function Profile({ handleCardClick, handleAddClick, weather, cards }) {
+function Profile({ handleCardClick, handleAddItemModal, weather, cards }) {
   const userName = "Terrence Tegegne";
   return (
     <main className="user-profile">
@@ -19,7 +19,7 @@ function Profile({ handleCardClick, handleAddClick, weather, cards }) {
         weather={weather}
         cards={cards}
         cardClick={handleCardClick}
-        handleAddItemClick={handleAddClick}
+        handleAddItemClick={handleAddItemModal}
       />
     </main>
   );

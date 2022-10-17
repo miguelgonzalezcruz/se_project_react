@@ -7,7 +7,12 @@ import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import AddItemModal from "./AddItemModal";
 import Footer from "./Footer";
-import { getItems, addItems, removeItems, baseURL } from "../utils/api.js";
+import {
+  getItemsFromList,
+  addItemsToList,
+  removeItemsFromList,
+  baseURL,
+} from "../utils/api.js";
 import "../blocks/App.css";
 
 import { getForecastWeather, filterDataFromTheApi } from "../utils/weatherApi";
@@ -47,7 +52,7 @@ function App() {
   };
 
   const handleAddItemSubmit = (name, imageUrl, weather) => {
-    addItems({ name, imageUrl, weather })
+    addItemsToList([name, imageUrl, weather])
       .then((newItem) => {
         setDefaultClothing([newItem, ...defaultClothing]);
       })
@@ -86,7 +91,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getItems(`${baseURL}`)
+    getItemsFromList(
+      `https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react`
+    )
       .then((items) => {
         setDefaultClothing(items);
       })

@@ -41,8 +41,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
       closePopup={closePopup}
       onAddItem={onAddItem}
       handleSubmit={handleSubmit}
-      handleWeather={handleWeatherChange}
-      handleImageChange={handleImageURLChange}
+      handleWeatherChange={handleWeatherChange}
+      handleImageURLChange={handleImageURLChange}
     >
       <label className="popup__input-label">Name</label>
       <input
@@ -73,6 +73,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           value="hot"
           onChange={handleWeatherChange}
           checked={weather === "hot"}
+          name={weather}
         />
         Hot
       </label>
@@ -84,6 +85,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           value="warm"
           onChange={handleWeatherChange}
           checked={weather === "warm"}
+          name={weather}
         />
         Warm
       </label>
@@ -95,6 +97,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           value="cold"
           onChange={handleWeatherChange}
           checked={weather === "cold"}
+          name={weather}
         />
         Cold
       </label>

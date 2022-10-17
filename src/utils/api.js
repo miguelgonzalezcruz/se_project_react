@@ -1,5 +1,5 @@
 const baseURL =
-  "https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react";
+  "https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react/items";
 
 const handleApiResponse = (res) => {
   if (res.ok) {
@@ -9,16 +9,21 @@ const handleApiResponse = (res) => {
   }
 };
 
-const getItems = (baseURL) => {
-  return fetch(`${baseURL}/items`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then(handleApiResponse);
+const getItemsFromList = () => {
+  return fetch(
+    `https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react/items`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then(handleApiResponse)
+    .then(console.log("llamado getItemsFromList"));
 };
 
-const addItems = (name, imageUrl, weather) => {
+const addItemsToList = ({ id, name, imageUrl, weather }) => {
   return fetch(
     `https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react/items`,
     {
@@ -26,13 +31,15 @@ const addItems = (name, imageUrl, weather) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(name, imageUrl, weather),
+      body: JSON.stringify({ id, name, imageUrl, weather }),
     }
-  ).then(handleApiResponse);
+  )
+    .then(handleApiResponse)
+    .then(console.log("llamado addItemsToList"));
 };
 
-const removeItems = (baseURL, id) => {
-  return fetch(`${baseURL}/items/${id}`, {
+const removeItemsFromList = (baseURL, id) => {
+  return fetch(`${baseURL}${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -40,4 +47,4 @@ const removeItems = (baseURL, id) => {
   }).then(handleApiResponse);
 };
 
-export { getItems, addItems, removeItems, baseURL };
+export { getItemsFromList, addItemsToList, removeItemsFromList, baseURL };

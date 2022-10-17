@@ -11,16 +11,14 @@ function UserItemsList({ cards, cardClick, handleAddItemClick }) {
           + Add new
         </button>
       </div>
-      <div>
-        <ul className="user-profile__cards">
-          {cards.map((currentCard) => (
-            <ItemCard
-              key={currentCard.id}
-              card={currentCard}
-              cardClick={() => cardClick(currentCard)}
-            />
-          ))}
-        </ul>
+      <div className="user-profile__cards">
+        {cards.map((currentCard) => (
+          <ItemCard
+            key={currentCard.id}
+            card={currentCard}
+            cardClick={() => cardClick(currentCard)}
+          />
+        ))}
       </div>
     </section>
   );
