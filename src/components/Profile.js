@@ -1,8 +1,5 @@
-import ItemCard from "./ItemCard";
 import "../blocks/Profile.css";
-import { useContext } from "react";
 import avatar from "../images/Default-Avatar.png";
-import { defaultClothingItems } from "../utils/defaultClothingItems";
 import UserItemsList from "./UserItemsList";
 
 function Profile({ handleCardClick, handleAddItemModal, weather, cards }) {
@@ -18,7 +15,7 @@ function Profile({ handleCardClick, handleAddItemModal, weather, cards }) {
       <UserItemsList
         weather={weather}
         cards={cards}
-        cardClick={handleCardClick}
+        handleCardClick={handleCardClick}
         handleAddItemClick={handleAddItemModal}
       />
     </main>

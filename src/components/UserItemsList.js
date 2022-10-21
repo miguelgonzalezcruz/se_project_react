@@ -2,7 +2,7 @@ import React from "react";
 import ItemCard from "./ItemCard";
 import "../blocks/UserItemsList.css";
 
-function UserItemsList({ cards, cardClick, handleAddItemClick }) {
+function UserItemsList({ cards, handleCardClick, handleAddItemClick }) {
   return (
     <section className="user-profile__content">
       <div className="user-profile__content_row">
@@ -12,11 +12,12 @@ function UserItemsList({ cards, cardClick, handleAddItemClick }) {
         </button>
       </div>
       <div className="user-profile__cards">
-        {cards.map((currentCard) => (
+        {cards.map((card) => (
           <ItemCard
-            key={currentCard.id}
-            card={currentCard}
-            cardClick={() => cardClick(currentCard)}
+            key={card.id}
+            card={card}
+            cardClick={() => handleCardClick(card)}
+            weather={card.weather}
           />
         ))}
       </div>

@@ -26,11 +26,14 @@ function Main({ weather, cards, handleCardClick }) {
         <div className="main__cards">
           {cards
             .filter((card) => card.weather === weatherType(weatherToday))
-            .map((currentCard) => (
+            .map((card) => (
               <ItemCard
-                key={currentCard.id}
-                card={currentCard}
-                cardClick={() => handleCardClick(currentCard)}
+                key={card.id}
+                name={card.name}
+                weather={card.weather}
+                imageUrl={card.imageUrl}
+                card={card}
+                cardClick={() => handleCardClick(card)}
               />
             ))}
         </div>

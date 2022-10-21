@@ -1,6 +1,6 @@
 import "../blocks/ItemCard.css";
 
-function ItemCard({ card, cardClick }) {
+function ItemCard({ card, cardClick, id }) {
   return (
     <div className="card__wrapper">
       <div className="card">
@@ -14,7 +14,6 @@ function ItemCard({ card, cardClick }) {
       <img
         className="card__image"
         src={card.imageUrl}
-        key={card.id}
         alt={card.name}
         onClick={cardClick}
         name={card.name}

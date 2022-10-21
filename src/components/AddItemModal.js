@@ -4,7 +4,7 @@ import ModalWithForm from "./ModalWithForm";
 const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState("");
 
   useEffect(() => {
     setName("");
@@ -26,7 +26,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddItem({ name, imageUrl, weather });
+    onAddItem({ name, weather, imageUrl });
     onClose();
   }
 
@@ -39,10 +39,10 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
       onClose={onClose}
       closeEsc={closeEsc}
       closePopup={closePopup}
-      onAddItem={onAddItem}
+      // onAddItem={onAddItem}
       handleSubmit={handleSubmit}
-      handleWeatherChange={handleWeatherChange}
-      handleImageURLChange={handleImageURLChange}
+      // handleWeatherChange={handleWeatherChange}
+      // handleImageURLChange={handleImageURLChange}
     >
       <label className="popup__input-label">Name</label>
       <input
@@ -52,7 +52,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
         placeholder="Name"
         required
         onChange={handleNameChange}
-        value={name}
+        // value={name}
       />
       <label className="popup__input-label">Image</label>
       <input
@@ -62,7 +62,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
         placeholder="Image URL"
         required
         onChange={handleImageURLChange}
-        value={imageUrl}
+        // value={imageUrl}
       />
       <label className="popup__input-title">Select the weather type</label>
       <label className="popup__input-text" htmlFor="hot">
@@ -72,8 +72,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           id="hot"
           value="hot"
           onChange={handleWeatherChange}
-          checked={weather === "hot"}
-          name={weather}
+          // checked={weather === "hot"}
+          name="hot"
         />
         Hot
       </label>
@@ -84,8 +84,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           id="warm"
           value="warm"
           onChange={handleWeatherChange}
-          checked={weather === "warm"}
-          name={weather}
+          // checked={weather === "warm"}
+          name="warm"
         />
         Warm
       </label>
@@ -96,8 +96,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           id="cold"
           value="cold"
           onChange={handleWeatherChange}
-          checked={weather === "cold"}
-          name={weather}
+          // checked={weather === "cold"}
+          name="cold"
         />
         Cold
       </label>

@@ -51,10 +51,10 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
-  const handleAddItemSubmit = (name, imageUrl, weather) => {
-    addItemsToList([name, imageUrl, weather])
-      .then((newItem) => {
-        setDefaultClothing([newItem, ...defaultClothing]);
+  const handleAddItemSubmit = ({ name, weather, imageUrl }) => {
+    addItemsToList([name, weather, imageUrl])
+      .then((card) => {
+        setDefaultClothing([card, ...defaultClothing]);
       })
       .catch((err) => console.log(err));
   };
@@ -148,7 +148,6 @@ function App() {
             onClose={handleClose}
             closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
-            onAddItem={handleAddItemSubmit}
           />
           <ItemModal
             isOpen={isPopupActive}
@@ -161,8 +160,6 @@ function App() {
           <AddItemModal
             isOpen={isAddClothingPopupActive}
             onClose={handleClose}
-            closeEsc={handleCloseEsc}
-            closePopup={handleCloseEvent}
             onAddItem={handleAddItemSubmit}
           />
         </div>

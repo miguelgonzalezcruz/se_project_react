@@ -15,8 +15,8 @@ function ModalWithForm({
       onClick={closePopup}
     >
       <div className="popup__content">
-        <form className="popup__form" name={name} noValidate>
-          <h2 className="popup__title">{title}</h2>
+        <h2 className="popup__title">{title}</h2>
+        <form className="popup__form" name={name}>
           {children}
           <button
             className="popup__submit"
