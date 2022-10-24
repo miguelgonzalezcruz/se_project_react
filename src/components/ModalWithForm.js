@@ -1,3 +1,4 @@
+import React from "react";
 import "../blocks/ModalWithForm.css";
 
 function ModalWithForm({
@@ -8,6 +9,7 @@ function ModalWithForm({
   name,
   title,
   handleSubmit,
+  onClose,
 }) {
   return (
     <div
@@ -15,8 +17,8 @@ function ModalWithForm({
       onClick={closePopup}
     >
       <div className="popup__content">
-        <h2 className="popup__title">{title}</h2>
         <form className="popup__form" name={name}>
+          <h2 className="popup__title">{title}</h2>
           {children}
           <button
             className="popup__submit"
@@ -25,6 +27,7 @@ function ModalWithForm({
           >
             {buttonText}
           </button>
+          <button className="popup__close" onClick={onClose}></button>
         </form>
       </div>
     </div>

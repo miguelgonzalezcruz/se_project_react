@@ -72,3 +72,20 @@
   background-repeat: no-repeat;
   cursor: pointer;
 }
+
+.card__popup-delete-clothes {
+  font-family: "Cabinet Grotesk";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ff4d00;
+  margin: 12px 0 32px 32px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+  bottom: 38px;
+}

@@ -50,9 +50,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
         type="text"
         name="name"
         placeholder="Name"
-        required
         onChange={handleNameChange}
-        // value={name}
+        value={name}
       />
       <label className="popup__input-label">Image</label>
       <input
@@ -60,9 +59,8 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
         type="url"
         name="image"
         placeholder="Image URL"
-        required
         onChange={handleImageURLChange}
-        // value={imageUrl}
+        value={imageUrl}
       />
       <label className="popup__input-title">Select the weather type</label>
       <label className="popup__input-text" htmlFor="hot">
@@ -71,9 +69,9 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           type="radio"
           id="hot"
           value="hot"
-          onChange={handleWeatherChange}
+          onClick={handleWeatherChange}
           // checked={weather === "hot"}
-          name="hot"
+          name="weather"
         />
         Hot
       </label>
@@ -83,9 +81,9 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           type="radio"
           id="warm"
           value="warm"
-          onChange={handleWeatherChange}
+          onClick={handleWeatherChange}
           // checked={weather === "warm"}
-          name="warm"
+          name="weather"
         />
         Warm
       </label>
@@ -95,9 +93,9 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
           type="radio"
           id="cold"
           value="cold"
-          onChange={handleWeatherChange}
+          onClick={handleWeatherChange}
           // checked={weather === "cold"}
-          name="cold"
+          name="weather"
         />
         Cold
       </label>

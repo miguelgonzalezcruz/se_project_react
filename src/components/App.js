@@ -51,10 +51,22 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
-  const handleAddItemSubmit = ({ name, weather, imageUrl }) => {
-    addItemsToList([name, weather, imageUrl])
+  const handleAddItemSubmit = (name, weather, imageUrl) => {
+    addItemsToList(name, weather, imageUrl)
       .then((card) => {
         setDefaultClothing([card, ...defaultClothing]);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteItem = () => {
+    removeItemsFromList(baseURL, selectedCard.id)
+      .then(() => {
+        const newDefaultClothing = defaultClothing.filter(
+          (card) => card.id !== selectedCard.id
+        );
+        setDefaultClothing(newDefaultClothing);
+        handleClose();
       })
       .catch((err) => console.log(err));
   };
@@ -91,9 +103,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getItemsFromList(
-      `https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react`
-    )
+    getItemsFromList(`${baseURL}`)
       .then((items) => {
         setDefaultClothing(items);
       })
@@ -152,15 +162,19 @@ function App() {
           <ItemModal
             isOpen={isPopupActive}
             name="preview-card"
+            title="Preview"
             card={selectedCard}
             onClose={handleClose}
             closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
+            handleDeleteItem={handleDeleteItem}
           />
           <AddItemModal
             isOpen={isAddClothingPopupActive}
             onClose={handleClose}
             onAddItem={handleAddItemSubmit}
+            closeEsc={handleCloseEsc}
+            closePopup={handleCloseEvent}
           />
         </div>
       </CurrentTemperatureUnitContext.Provider>

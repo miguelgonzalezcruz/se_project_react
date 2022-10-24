@@ -1,3 +1,4 @@
+import React from "react";
 import "../blocks/Profile.css";
 import avatar from "../images/Default-Avatar.png";
 import UserItemsList from "./UserItemsList";
@@ -5,7 +6,7 @@ import UserItemsList from "./UserItemsList";
 function Profile({ handleCardClick, handleAddItemModal, weather, cards }) {
   const userName = "Terrence Tegegne";
   return (
-    <main className="user-profile">
+    <div className="user-profile">
       <section className="user-profile__sidebar">
         <div className="sidebar__row">
           <img src={avatar} alt="User Avatar" />
@@ -18,7 +19,7 @@ function Profile({ handleCardClick, handleAddItemModal, weather, cards }) {
         handleCardClick={handleCardClick}
         handleAddItemClick={handleAddItemModal}
       />
-    </main>
+    </div>
   );
 }
 

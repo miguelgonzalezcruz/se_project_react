@@ -29,11 +29,12 @@ function Main({ weather, cards, handleCardClick }) {
             .map((card) => (
               <ItemCard
                 key={card.id}
+                id={card.id}
                 name={card.name}
                 weather={card.weather}
                 imageUrl={card.imageUrl}
                 card={card}
-                cardClick={() => handleCardClick(card)}
+                cardClick={handleCardClick}
               />
             ))}
         </div>
