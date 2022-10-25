@@ -47,11 +47,16 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
+  function setCardId(card) {
+    card.id = defaultClothing.length + 1;
+  }
+
   const handleAddItemSubmit = (name, weather, imageUrl) => {
+    setIsLoading(true);
     addItemsToList(name, weather, imageUrl)
       .then((card) => {
+        setCardId(card);
         setDefaultClothing([card, ...defaultClothing]);
-        setIsLoading(true);
       })
       .finally(() => {
         setIsLoading(false);

@@ -23,3 +23,22 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
+@media screen and (max-width: 1500px) {
+  .main__cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .main__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 734px) {
+  .main__cards {
+    display: flex;
+    flex-direction: column;
+  }
+}

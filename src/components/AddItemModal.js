@@ -3,11 +3,11 @@ import ModalWithForm from "./ModalWithForm";
 
 const AddItemModal = ({
   isOpen,
+  isLoading,
   onClose,
   closePopup,
   closeEsc,
   onAddItem,
-  isLoading,
 }) => {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
