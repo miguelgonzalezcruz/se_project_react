@@ -45,7 +45,7 @@
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 20px;
-  justify-content: start;
+  justify-content: flex-start;
   margin-bottom: 0;
 }
 
