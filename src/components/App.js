@@ -58,11 +58,11 @@ function App() {
         setCardId(card);
         setDefaultClothing([card, ...defaultClothing]);
       })
+      .then(handleClose())
+      .catch((err) => console.log(err))
       .finally(() => {
         setIsLoading(false);
-        handleClose();
-      })
-      .catch((err) => console.log(err));
+      });
   };
 
   const handleDeleteItem = () => {
@@ -72,8 +72,8 @@ function App() {
           (card) => card.id !== selectedCard.id
         );
         setDefaultClothing(newDefaultClothing);
-        handleClose();
       })
+      .then(handleClose())
       .catch((err) => console.log(err));
   };
 
@@ -161,7 +161,6 @@ function App() {
             name="create-garment"
             buttonText={isLoading ? "Saving..." : "Save"}
             onClose={handleClose}
-            // closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
           />
           <ItemModal
@@ -170,7 +169,6 @@ function App() {
             title="Preview"
             card={selectedCard}
             onClose={handleClose}
-            // closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
             handleDeleteItem={handleDeleteItem}
           />
@@ -178,7 +176,6 @@ function App() {
             isOpen={isAddClothingPopupActive}
             onClose={handleClose}
             onAddItem={handleAddItemSubmit}
-            // closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
           />
         </div>
