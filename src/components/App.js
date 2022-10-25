@@ -21,7 +21,7 @@ import { secretKey, location } from "../utils/constants";
 
 import { defaultClothingItems } from "../utils/defaultClothingItems";
 
-import CurrentTemperatureUnitContext from "../utils/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
 function App() {
   const [weatherInfo, setWeatherInfo] = useState({});
@@ -31,6 +31,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [defaultClothing, setDefaultClothing] = useState([]);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddClick = () => {
     setIsAddClothingPopupActive(true);
@@ -46,15 +47,15 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
-  const handleCloseEsc = () => {
-    setIsPopupActive(false);
-    setIsAddClothingPopupActive(false);
-  };
-
   const handleAddItemSubmit = (name, weather, imageUrl) => {
     addItemsToList(name, weather, imageUrl)
       .then((card) => {
         setDefaultClothing([card, ...defaultClothing]);
+        setIsLoading(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        handleClose();
       })
       .catch((err) => console.log(err));
   };
@@ -72,23 +73,22 @@ function App() {
   };
 
   useEffect(() => {
-    const close = (e) => {
+    const closeOnEscape = (e) => {
       if (e.key === "Escape") {
-        handleCloseEsc();
+        handleClose();
       }
     };
     if (isPopupActive || isAddClothingPopupActive) {
-      window.addEventListener("keydown", close);
+      window.addEventListener("keydown", closeOnEscape);
     }
     return () => {
-      window.removeEventListener("keydown", close);
+      window.removeEventListener("keydown", closeOnEscape);
     };
   }, [isAddClothingPopupActive, isPopupActive]);
 
   const handleCloseEvent = (event) => {
     if (event.target === event.currentTarget) {
-      setIsPopupActive(null);
-      setIsAddClothingPopupActive(null);
+      handleClose();
     }
   };
 
@@ -154,9 +154,9 @@ function App() {
             isOpen={isAddClothingPopupActive}
             title="New garment"
             name="create-garment"
-            buttonText="Add garment"
+            buttonText={isLoading ? "Saving..." : "Save"}
             onClose={handleClose}
-            closeEsc={handleCloseEsc}
+            // closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
           />
           <ItemModal
@@ -165,7 +165,7 @@ function App() {
             title="Preview"
             card={selectedCard}
             onClose={handleClose}
-            closeEsc={handleCloseEsc}
+            // closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
             handleDeleteItem={handleDeleteItem}
           />
@@ -173,7 +173,7 @@ function App() {
             isOpen={isAddClothingPopupActive}
             onClose={handleClose}
             onAddItem={handleAddItemSubmit}
-            closeEsc={handleCloseEsc}
+            // closeEsc={handleCloseEsc}
             closePopup={handleCloseEvent}
           />
         </div>

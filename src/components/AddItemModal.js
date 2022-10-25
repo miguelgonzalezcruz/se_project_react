@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
 
-const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
+const AddItemModal = ({
+  isOpen,
+  onClose,
+  closePopup,
+  closeEsc,
+  onAddItem,
+  isLoading,
+}) => {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [weather, setWeather] = useState("");
@@ -27,7 +34,6 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
   function handleSubmit(e) {
     e.preventDefault();
     onAddItem({ name, weather, imageUrl });
-    onClose();
   }
 
   return (
@@ -35,7 +41,7 @@ const AddItemModal = ({ isOpen, onClose, closePopup, closeEsc, onAddItem }) => {
       isOpen={isOpen}
       title="New garment"
       name="create-garment"
-      buttonText="Add garment"
+      buttonText={isLoading ? "Saving..." : "Save"}
       onClose={onClose}
       closeEsc={closeEsc}
       closePopup={closePopup}

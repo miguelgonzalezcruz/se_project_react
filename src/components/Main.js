@@ -4,9 +4,9 @@ import ItemCard from "./ItemCard";
 import "../blocks/Main.css";
 import { weatherType } from "../utils/weatherApi";
 import { useContext } from "react";
-import CurrentTemperatureUnitContext from "../utils/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
-function Main({ weather, cards, handleCardClick }) {
+function Main({ weather, cards, handleCardClick, index }) {
   const weatherToday = weather.temperature;
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
 
@@ -26,9 +26,9 @@ function Main({ weather, cards, handleCardClick }) {
         <div className="main__cards">
           {cards
             .filter((card) => card.weather === weatherType(weatherToday))
-            .map((card) => (
+            .map((card, index) => (
               <ItemCard
-                key={card.id}
+                key={card.id || index}
                 id={card.id}
                 name={card.name}
                 weather={card.weather}

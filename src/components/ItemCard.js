@@ -3,7 +3,7 @@ import "../blocks/ItemCard.css";
 
 function ItemCard({ card, cardClick }) {
   return (
-    <li key={card.id}>
+    <li>
       <div className="card__wrapper">
         <div className="card">
           <div className="card__title-container">

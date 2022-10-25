@@ -17,14 +17,10 @@ function ModalWithForm({
       onClick={closePopup}
     >
       <div className="popup__content">
-        <form className="popup__form" name={name}>
+        <form className="popup__form" name={name} onSubmit={handleSubmit}>
           <h2 className="popup__title">{title}</h2>
           {children}
-          <button
-            className="popup__submit"
-            type="submit"
-            onClick={handleSubmit}
-          >
+          <button className="popup__submit" type="submit">
             {buttonText}
           </button>
           <button className="popup__close" onClick={onClose}></button>

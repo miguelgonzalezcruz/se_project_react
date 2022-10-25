@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import "../blocks/WeatherCard.css";
-import CurrentTemperatureUnitContext from "../utils/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
 // weather Card Icons
 
