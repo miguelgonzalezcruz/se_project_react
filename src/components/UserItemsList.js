@@ -12,10 +12,9 @@ function UserItemsList({ cards, handleCardClick, handleAddItemClick }) {
         </button>
       </div>
       <ul className="user-profile__cards">
-        {cards.map((card) => (
+        {cards.map((card, index) => (
           <ItemCard
-            key={card.id}
-            id={card.id}
+            key={card.id || index}
             card={card}
             cardClick={handleCardClick}
             weather={card.weather}

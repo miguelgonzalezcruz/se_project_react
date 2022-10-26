@@ -57,8 +57,8 @@ function App() {
       .then((card) => {
         setCardId(card);
         setDefaultClothing([card, ...defaultClothing]);
+        handleClose();
       })
-      .then(handleClose())
       .catch((err) => console.log(err))
       .finally(() => {
         setIsLoading(false);
@@ -73,7 +73,7 @@ function App() {
         );
         setDefaultClothing(newDefaultClothing);
       })
-      .then(handleClose())
+      .then(handleClose)
       .catch((err) => console.log(err));
   };
 
