@@ -174,8 +174,8 @@ function App() {
           />
           <AddItemModal
             isOpen={isAddClothingPopupActive}
-            onClose={handleClose}
             onAddItem={handleAddItemSubmit}
+            onClose={handleClose}
             closePopup={handleCloseEvent}
           />
         </div>
