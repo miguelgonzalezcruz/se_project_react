@@ -23,7 +23,7 @@ function ModalWithForm({
           <button className="popup__submit" type="submit">
             {buttonText}
           </button>
-          <button className="popup__close" onClick={onClose}></button>
+          <button className="popup__close" onClick={closePopup}></button>
         </form>
       </div>
     </div>

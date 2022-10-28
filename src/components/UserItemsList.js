@@ -14,7 +14,7 @@ function UserItemsList({ cards, handleCardClick, handleAddItemClick }) {
       <ul className="user-profile__cards">
         {cards.map((card, index) => (
           <ItemCard
-            key={card.id || index}
+            key={index}
             card={card}
             cardClick={handleCardClick}
             weather={card.weather}
