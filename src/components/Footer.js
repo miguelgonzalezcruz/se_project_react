@@ -4,9 +4,14 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__name-content">
-        <p className="footer__text">Developed by Miguel González</p>
+        <p className="footer__text">Developed by Miguel González | 2022</p>
       </div>
-      <p className="footer__text">2022</p>
+      <div className="footer__text">
+        Powered by{" "}
+        <a href="https://www.weatherapi.com/" title="Weather API">
+          WeatherAPI.com
+        </a>
+      </div>
     </footer>
   );
 }
