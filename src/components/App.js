@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Route } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Profile from "./Profile";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import AddItemModal from "./AddItemModal";
+import LoginModal from "./LoginModal"; // Nueva línea para importar el componente de inicio de sesión
+import RegisterModal from "./RegisterModal"; // Nueva línea para importar el componente de registro
+import ProtectedRoute from "./ProtectedRoute"; // Nueva línea para importar el componente de ruta protegida
+import { register, authorize } from "../utils/auth";
 import Footer from "./Footer";
 import {
   getItemsFromList,
@@ -32,6 +36,49 @@ function App() {
   const [defaultClothing, setDefaultClothing] = useState([]);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isLogged, setIsLogged] = useState(false); // Nueva línea para el estado de inicio de sesión
+  const [email, setEmail] = useState(""); // Nueva línea para el estado de correo electrónico
+
+  const history = useHistory();
+
+  // const handleLogin = (e) => {
+  //   // Nueva función para manejar el inicio de sesión
+  //   e.preventDefault();
+  //   setIsLogged(true);
+  // };
+
+  const handleLogin = useCallback(
+    (e) => {
+      LoginModal(e)
+        .then((data) => {
+          if (data?.token) {
+            localStorage.setItem("jwt", data.token);
+          } else {
+            console.log("No token");
+          }
+        })
+        .then(() => {
+          setIsLogged(true);
+          history.push("/profile");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    [history]
+  );
+
+  const handleRegister = (e) => {
+    // Nueva función para manejar el registro
+    RegisterModal(e)
+      .then((data) => {
+        history.push("/signin");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleAddClick = () => {
     setIsAddClothingPopupActive(true);
@@ -136,23 +183,35 @@ function App() {
       >
         <div className="page__content">
           <Header weather={weatherInfo} handleAddClick={handleAddClick} />
-          <Route exact path="/">
-            <Main
-              weather={weatherInfo}
-              cards={defaultClothing}
-              handleCardClick={handleCardClick}
-            />
-          </Route>
+          <Switch>
+            <ProtectedRoute isLogged={isLogged} path="/profile">
+              <Profile
+                handleCardClick={handleCardClick}
+                handleAddClick={handleAddClick}
+                weather={weatherInfo}
+                cards={defaultClothing}
+                handleAddItemModal={handleAddItemModal}
+              />
+            </ProtectedRoute>
 
-          <Route exact path="/profile">
-            <Profile
-              handleCardClick={handleCardClick}
-              handleAddClick={handleAddClick}
-              weather={weatherInfo}
-              cards={defaultClothing}
-              handleAddItemModal={handleAddItemModal}
-            />
-          </Route>
+            <Route exact path="/signin">
+              <RegisterModal />
+            </Route>
+
+            <Route exact path="/login">
+              <div className="">
+                <LoginModal handleLogin={handleLogin} />
+              </div>
+            </Route>
+
+            <Route exact path="/">
+              <Main
+                weather={weatherInfo}
+                cards={defaultClothing}
+                handleCardClick={handleCardClick}
+              />
+            </Route>
+          </Switch>
 
           <Footer />
           <ModalWithForm
