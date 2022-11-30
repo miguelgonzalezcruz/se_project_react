@@ -1,4 +1,4 @@
-const baseURL = "mongodb://localhost:27017/wtwr_db";
+const baseURL = "http://localhost:3001";
 
 export const register = ({ email, password, name, avatar }) => {
   return fetch(`${baseURL}/signup`, {

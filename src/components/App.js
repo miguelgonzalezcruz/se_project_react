@@ -37,7 +37,7 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(false); // Nueva línea para el estado de inicio de sesión
+  const [isLogged, setIsLogged] = useState(true); // Nueva línea para el estado de inicio de sesión
   const [email, setEmail] = useState(""); // Nueva línea para el estado de correo electrónico
 
   const history = useHistory();
@@ -184,16 +184,6 @@ function App() {
         <div className="page__content">
           <Header weather={weatherInfo} handleAddClick={handleAddClick} />
           <Switch>
-            <ProtectedRoute isLogged={isLogged} path="/profile">
-              <Profile
-                handleCardClick={handleCardClick}
-                handleAddClick={handleAddClick}
-                weather={weatherInfo}
-                cards={defaultClothing}
-                handleAddItemModal={handleAddItemModal}
-              />
-            </ProtectedRoute>
-
             <Route exact path="/signin">
               <RegisterModal />
             </Route>
@@ -203,6 +193,16 @@ function App() {
                 <LoginModal handleLogin={handleLogin} />
               </div>
             </Route>
+
+            <ProtectedRoute isLogged={isLogged} path="/profile">
+              <Profile
+                handleCardClick={handleCardClick}
+                handleAddClick={handleAddClick}
+                weather={weatherInfo}
+                cards={defaultClothing}
+                handleAddItemModal={handleAddItemModal}
+              />
+            </ProtectedRoute>
 
             <Route exact path="/">
               <Main
@@ -234,6 +234,11 @@ function App() {
           <AddItemModal
             isOpen={isAddClothingPopupActive}
             onAddItem={handleAddItemSubmit}
+            onClose={handleClose}
+            closePopup={handleCloseEvent}
+          />
+          <LoginModal
+            isOpen={isAddClothingPopupActive}
             onClose={handleClose}
             closePopup={handleCloseEvent}
           />

@@ -31,6 +31,10 @@ function Header({ weather, handleAddClick }) {
           {userName}
           <img className="navigation__avatar" src={avatar} alt="User Avatar" />
         </NavLink>
+
+        <NavLink to="/signin" className="navigation__username">
+          Sign Up
+        </NavLink>
       </div>
     </header>
   );
