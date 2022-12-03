@@ -3,9 +3,7 @@ import { Link, useHistory, withRouter } from "react-router-dom";
 import * as auth from "../utils/auth";
 import ModalWithForm from "./ModalWithForm";
 
-function RegisterModal(isOpen, onClose, closePopup, closeEsc) {
-  const history = useHistory();
-
+function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -13,39 +11,30 @@ function RegisterModal(isOpen, onClose, closePopup, closeEsc) {
     avatar: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    auth
-      .register(values)
-      .then((res) => {
-        if (res) {
-          this.props.onClose();
-          history.push("/signin");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    e.preventDefault();
+    const { input, values } = e.target;
     setValues({
       ...values,
-      [name]: value,
+      [input]: values,
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onRegister(values.email, values.password, values.name, values.avatar);
   };
 
   return (
     <ModalWithForm
       isOpen={isOpen}
-      title="New garment"
-      name="create-garment"
+      title="Register"
+      name="register"
       buttonText="Sign up"
       onClose={onClose}
       closeEsc={closeEsc}
       closePopup={closePopup}
-      handleSubmit={handleSubmit}
+      onRegister={handleSubmit}
     >
       <label className="popup__input-label">Email</label>
       <input

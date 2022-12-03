@@ -32,7 +32,7 @@ function Header({ weather, handleAddClick }) {
           <img className="navigation__avatar" src={avatar} alt="User Avatar" />
         </NavLink>
 
-        <NavLink to="/signin" className="navigation__username">
+        <NavLink to="/signup" className="navigation__username">
           Sign Up
         </NavLink>
       </div>

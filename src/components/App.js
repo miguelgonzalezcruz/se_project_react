@@ -38,7 +38,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isLogged, setIsLogged] = useState(true); // Nueva línea para el estado de inicio de sesión
-  const [email, setEmail] = useState(""); // Nueva línea para el estado de correo electrónico
 
   const history = useHistory();
 
@@ -69,11 +68,12 @@ function App() {
     [history]
   );
 
-  const handleRegister = (e) => {
+  const handleRegister = (email, password, name, avatar) => {
     // Nueva función para manejar el registro
-    RegisterModal(e)
-      .then((data) => {
-        history.push("/signin");
+    RegisterModal(email, password, name, avatar)
+      .then(() => {
+        setIsLogged(true);
+        // history.push("/signin");
       })
       .catch((err) => {
         console.log(err);
@@ -184,11 +184,11 @@ function App() {
         <div className="page__content">
           <Header weather={weatherInfo} handleAddClick={handleAddClick} />
           <Switch>
-            <Route exact path="/signin">
-              <RegisterModal />
+            <Route exact path="/signup">
+              <RegisterModal onRegister={handleRegister} />
             </Route>
 
-            <Route exact path="/login">
+            <Route exact path="/signin">
               <div className="">
                 <LoginModal handleLogin={handleLogin} />
               </div>
