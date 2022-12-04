@@ -37,9 +37,9 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(true); // Nueva línea para el estado de inicio de sesión
-  const [currentUser, setCurrentUser] = useState({}); // Nueva línea para el estado del usuario actual
-  const [isRegisterPopupActive, setIsRegisterPopupActive] = useState(false); // Nueva línea para el estado de registro
+  const [isLogged, setIsLogged] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
+  const [isRegisterPopupActive, setIsRegisterPopupActive] = useState(false);
 
   const history = useHistory();
 
