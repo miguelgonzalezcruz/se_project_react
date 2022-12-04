@@ -10,20 +10,19 @@ function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
     avatar: "",
   });
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    const { name, values } = e.target;
-    setValues((prevState) => {
-      return {
-        ...prevState,
-        [name]: values,
-      };
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister(values.email, values.password, values.name, values.avatar);
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    console.log(e.target);
   };
 
   return (
