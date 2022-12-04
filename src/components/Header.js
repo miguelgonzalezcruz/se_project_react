@@ -4,7 +4,7 @@ import logo from "../images/logo-wtwr.svg";
 import avatar from "../images/Default-Avatar.png";
 import ToggleSwitch from "./ToggleSwitch";
 
-function Header({ weather, handleAddClick }) {
+function Header({ weather, handleAddClick, handleRegister }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -25,6 +25,9 @@ function Header({ weather, handleAddClick }) {
 
         <button className="navigation__button" onClick={handleAddClick}>
           + Add clothes
+        </button>
+        <button className="navigation__button" onClick={handleRegister}>
+          Sign Up
         </button>
 
         <NavLink to="/profile" className="navigation__username">

@@ -38,47 +38,42 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isLogged, setIsLogged] = useState(true); // Nueva línea para el estado de inicio de sesión
+  const [currentUser, setCurrentUser] = useState({}); // Nueva línea para el estado del usuario actual
+  const [isRegisterPopupActive, setIsRegisterPopupActive] = useState(false); // Nueva línea para el estado de registro
 
   const history = useHistory();
 
-  // const handleLogin = (e) => {
-  //   // Nueva función para manejar el inicio de sesión
-  //   e.preventDefault();
-  //   setIsLogged(true);
-  // };
-
-  const handleLogin = useCallback(
-    (e) => {
-      LoginModal(e)
-        .then((data) => {
-          if (data?.token) {
-            localStorage.setItem("jwt", data.token);
-          } else {
-            console.log("No token");
-          }
-        })
-        .then(() => {
-          setIsLogged(true);
-          history.push("/profile");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    [history]
-  );
+  // ----------------- Nueva función para manejar el registro -----------------
 
   const handleRegister = (email, password, name, avatar) => {
-    // Nueva función para manejar el registro
-    RegisterModal(email, password, name, avatar)
+    setIsRegisterPopupActive(true);
+    register(email, password, name, avatar)
       .then(() => {
-        setIsLogged(true);
-        // history.push("/signin");
+        setIsPopupActive(false);
+        history.push("/signin");
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
+
+  // ----------------- Nueva función para manejar el registro -----------------
+
+  // ----------------- Nueva función para manejar el inicio de sesión -----------------
+
+  const handleLogin = (email, password) => {
+    authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setIsLogged(true);
+          setCurrentUser(data);
+          setIsPopupActive(false);
+          history.push("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // ----------------- Nueva función para manejar el inicio de sesión -----------------
 
   const handleAddClick = () => {
     setIsAddClothingPopupActive(true);
@@ -182,34 +177,28 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
         <div className="page__content">
-          <Header weather={weatherInfo} handleAddClick={handleAddClick} />
+          <Header
+            weather={weatherInfo}
+            handleAddClick={handleAddClick}
+            handleRegister={handleRegister}
+          />
+
           <Switch>
-            <Route exact path="/signup">
-              <RegisterModal onRegister={handleRegister} />
-            </Route>
-
-            <Route exact path="/signin">
-              <div className="">
-                <LoginModal handleLogin={handleLogin} />
-              </div>
-            </Route>
-
-            <ProtectedRoute isLogged={isLogged} path="/profile">
-              <Profile
-                handleCardClick={handleCardClick}
-                handleAddClick={handleAddClick}
-                weather={weatherInfo}
-                cards={defaultClothing}
-                handleAddItemModal={handleAddItemModal}
-              />
-            </ProtectedRoute>
-
             <Route exact path="/">
               <Main
                 weather={weatherInfo}
                 cards={defaultClothing}
                 handleCardClick={handleCardClick}
               />
+              <ProtectedRoute isLogged={isLogged} path="/profile">
+                <Profile
+                  handleCardClick={handleCardClick}
+                  handleAddClick={handleAddClick}
+                  weather={weatherInfo}
+                  cards={defaultClothing}
+                  handleAddItemModal={handleAddItemModal}
+                />
+              </ProtectedRoute>
             </Route>
           </Switch>
 
@@ -222,6 +211,7 @@ function App() {
             onClose={handleClose}
             closePopup={handleCloseEvent}
           />
+
           <ItemModal
             isOpen={isPopupActive}
             name="preview-card"
@@ -231,6 +221,7 @@ function App() {
             closePopup={handleCloseEvent}
             handleDeleteItem={handleDeleteItem}
           />
+
           <AddItemModal
             isOpen={isAddClothingPopupActive}
             onAddItem={handleAddItemSubmit}
@@ -241,6 +232,12 @@ function App() {
             isOpen={isAddClothingPopupActive}
             onClose={handleClose}
             closePopup={handleCloseEvent}
+          />
+          <RegisterModal
+            isOpen={isRegisterPopupActive}
+            onClose={handleClose}
+            closePopup={handleCloseEvent}
+            onRegister={handleRegister}
           />
         </div>
       </CurrentTemperatureUnitContext.Provider>

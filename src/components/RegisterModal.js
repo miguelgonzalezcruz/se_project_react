@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useHistory, withRouter } from "react-router-dom";
-import * as auth from "../utils/auth";
 import ModalWithForm from "./ModalWithForm";
 
 function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
@@ -13,10 +12,12 @@ function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
 
   const handleChange = (e) => {
     e.preventDefault();
-    const { input, values } = e.target;
-    setValues({
-      ...values,
-      [input]: values,
+    const { name, values } = e.target;
+    setValues((prevState) => {
+      return {
+        ...prevState,
+        [name]: values,
+      };
     });
   };
 
@@ -28,13 +29,13 @@ function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
   return (
     <ModalWithForm
       isOpen={isOpen}
-      title="Register"
+      title="register"
       name="register"
       buttonText="Sign up"
       onClose={onClose}
       closeEsc={closeEsc}
       closePopup={closePopup}
-      onRegister={handleSubmit}
+      handleSubmit={handleSubmit}
     >
       <label className="popup__input-label">Email</label>
       <input
@@ -79,7 +80,7 @@ function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
       <p className="popup__text">
         Already registered?{" "}
         <Link className="popup__link" to="/signin">
-          Next
+          Log in here
         </Link>
       </p>
     </ModalWithForm>
