@@ -1,8 +1,11 @@
 import React from "react";
 import { Link, useHistory, withRouter } from "react-router-dom";
+import { register } from "../utils/auth";
 import ModalWithForm from "./ModalWithForm";
 
-function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
+function RegisterModal(isOpen, onClose, closePopup, closeEsc) {
+  const history = useHistory();
+
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -12,7 +15,11 @@ function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister(values.email, values.password, values.name, values.avatar);
+    register(values.email, values.password, values.name, values.avatar)
+      .then((res) => {
+        history.push("/signin");
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleChange = (e) => {
@@ -22,7 +29,7 @@ function RegisterModal(isOpen, onClose, onRegister, closePopup, closeEsc) {
       ...values,
       [name]: value,
     });
-    console.log(e.target);
+    console.log(value);
   };
 
   return (
