@@ -49,7 +49,7 @@ function App() {
     setIsRegisterPopupActive(true);
     register(email, password, name, avatar)
       .then(() => {
-        setIsPopupActive(false);
+        setIsRegisterPopupActive(false);
         history.push("/signin");
       })
       .catch((err) => console.log(err));
