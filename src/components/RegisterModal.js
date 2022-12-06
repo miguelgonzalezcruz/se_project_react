@@ -12,7 +12,7 @@ function RegisterModal(isOpen, onClose, closePopup, closeEsc) {
   });
 
   const handleSubmit = (e) => {
-    register(values.email, values.password, values.name, values.avatar);
+    register(values);
   };
 
   const handleChange = (e) => {
