@@ -17,13 +17,10 @@ function RegisterModal(isOpen, onClose, closePopup, closeEsc) {
 
   const handleChange = (e) => {
     e.preventDefault();
-    const { value } = e.target;
+    const { name, value } = e.target;
     setValues({
       ...values,
-      [e.target.email]: e.target.value,
-      [e.target.password]: e.target.value,
-      [e.target.name]: e.target.value,
-      [e.target.avatar]: e.target.value,
+      [name]: value,
     });
     console.log(value);
   };
