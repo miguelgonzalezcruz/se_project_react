@@ -15,9 +15,7 @@ const getItemsFromList = () => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
-    .then(handleApiResponse)
-    .then(console.log("llamado getItemsFromList"));
+  }).then(handleApiResponse);
 };
 
 const addItemsToList = ({ id, name, imageUrl, weather }) => {
@@ -27,9 +25,7 @@ const addItemsToList = ({ id, name, imageUrl, weather }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ id, name, imageUrl, weather }),
-  })
-    .then(handleApiResponse)
-    .then(console.log("llamado addItemsToList"));
+  }).then(handleApiResponse);
 };
 
 const removeItemsFromList = (baseURL, id) => {
@@ -41,4 +37,29 @@ const removeItemsFromList = (baseURL, id) => {
   }).then(handleApiResponse);
 };
 
-export { getItemsFromList, addItemsToList, removeItemsFromList, baseURL };
+const likeItem = (id) => {
+  return fetch(`${baseURL}/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(handleApiResponse);
+};
+
+const dislikeItem = (id) => {
+  return fetch(`${baseURL}/${id}/likes`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(handleApiResponse);
+};
+
+export {
+  getItemsFromList,
+  addItemsToList,
+  removeItemsFromList,
+  likeItem,
+  dislikeItem,
+  baseURL,
+};

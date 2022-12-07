@@ -1,74 +1,72 @@
 import React from "react";
+import ModalWithForm from "./ModalWithForm";
 import { Link, useHistory, withRouter } from "react-router-dom";
-import * as auth from "../utils/auth";
 
-function LoginModal() {
-  const history = useHistory();
+const LoginModal = ({
+  isOpen,
+  onClose,
+  closePopup,
+  closeEsc,
+  isLoading,
+  onRegister,
+}) => {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-  const [values, setValues] = React.useState({
-    email: "",
-    password: "",
-  });
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    console.log(e.target.value);
+  };
 
-  const handleSubmit = (e) => {
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+  };
+
+  function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .authorize(values)
-      .then((res) => {
-        if (res) {
-          this.props.onClose();
-          history.push("/profile");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
+    onRegister(email, password);
+  }
 
   return (
-    <div className="popup popup__register">
-      <div className="popup__content">
-        <form className="popup__form" name="register" onSubmit={handleSubmit}>
-          <h2 className="popup__title">Log in</h2>
-          <input
-            className="popup__input"
-            type="email"
-            name="email"
-            value={values.email}
-            placeholder="Email"
-            required
-            onChange={handleChange}
-          />
-          <input
-            className="popup__input"
-            type="password"
-            name="password"
-            value={values.password}
-            placeholder="Password"
-            required
-            onChange={handleChange}
-          />
-          <button className="popup__button" type="submit">
-            Log in
-          </button>
-          <p className="popup__text">
-            or{" "}
-            <Link to="/signup" className="popup__link">
-              Sign up
-            </Link>
-          </p>
-        </form>
-      </div>
-    </div>
+    <ModalWithForm
+      isOpen={isOpen}
+      title="login"
+      name="login"
+      onClose={onClose}
+      closeEsc={closeEsc}
+      closePopup={closePopup}
+      handleSubmit={handleSubmit}
+      buttonText={isLoading ? "One sec..." : "Log in"}
+    >
+      <label className="popup__input-label">Email</label>
+      <input
+        className="popup__input"
+        type="email"
+        name="email"
+        value={email}
+        placeholder="Email"
+        required
+        onChange={handleEmail}
+      />
+      <label className="popup__input-label">Password</label>
+      <input
+        className="popup__input"
+        type="password"
+        name="password"
+        value={password}
+        placeholder="Password"
+        required
+        onChange={handlePassword}
+      />
+      <p className="popup__text">
+        or{" "}
+        <Link to="/signup" className="popup__link">
+          Sign up
+        </Link>
+      </p>
+    </ModalWithForm>
   );
-}
+};
 
 export default withRouter(LoginModal);

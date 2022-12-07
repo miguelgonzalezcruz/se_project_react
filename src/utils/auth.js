@@ -1,7 +1,15 @@
-const baseURL = "http://localhost:3000";
+const baseURL = "http://localhost:3001";
 
-export const register = async ({ email, password, name, avatar }) => {
-  const response = await fetch(`${baseURL}/signup`, {
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  } else {
+    return Promise.reject(`Error ${res.status}`);
+  }
+}
+
+const register = ({ email, password, name, avatar }) => {
+  return fetch(`${baseURL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,57 +20,38 @@ export const register = async ({ email, password, name, avatar }) => {
       name,
       avatar,
     }),
-  });
-  const data = await response.json();
-
-  if (data.error) {
-    throw new Error(data.error);
-  }
-  console.log(data);
+  }).then(checkResponse);
 };
 
-// export const register = async ({ email, password, name, avatar }) => {
-//   return fetch(`${baseURL}/signup`, {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       email,
-//       password,
-//       name,
-//       avatar,
-//     }),
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       if (data.error) {
-//         throw new Error(data.error);
-//       }
-//       console.log(data);
-//     });
-// };
+const editProfile = (name, avatar) => {
+  return fetch(`${baseURL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    },
+    body: JSON.stringify({ name, avatar }),
+  }).then(checkResponse);
+};
 
-export const authorize = ({ email, password }) => {
+const login = (email, password) => {
   return fetch(`${baseURL}/signin`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.jwt) {
-        localStorage.setItem("jwt", data.jwt);
-        return data;
-      } else {
-        return;
-      }
-    });
+    body: JSON.stringify({ email, password }),
+  }).then(checkResponse);
 };
+
+const authorize = (token) => {
+  return fetch(`${baseURL}/users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};
+
+export { register, editProfile, login, authorize };
