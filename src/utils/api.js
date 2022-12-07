@@ -37,7 +37,7 @@ const removeItemsFromList = (baseURL, id) => {
   }).then(handleApiResponse);
 };
 
-const likeItem = (id) => {
+const likeCard = (id) => {
   return fetch(`${baseURL}/${id}/likes`, {
     method: "PUT",
     headers: {
@@ -46,7 +46,7 @@ const likeItem = (id) => {
   }).then(handleApiResponse);
 };
 
-const dislikeItem = (id) => {
+const dislikeCard = (id) => {
   return fetch(`${baseURL}/${id}/likes`, {
     method: "DELETE",
     headers: {
@@ -59,7 +59,7 @@ export {
   getItemsFromList,
   addItemsToList,
   removeItemsFromList,
-  likeItem,
-  dislikeItem,
+  likeCard,
+  dislikeCard,
   baseURL,
 };

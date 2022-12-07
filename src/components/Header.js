@@ -1,15 +1,32 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 import "../blocks/Header.css";
 import logo from "../images/logo-wtwr.svg";
-import avatar from "../images/Default-Avatar.png";
 import ToggleSwitch from "./ToggleSwitch";
 
-function Header({ weather, handleAddClick, handleRegister }) {
+// import CurrentUserContext from "../contexts/CurrentUserContext"
+// import avatar from "../images/Default-Avatar.png";
+
+function Header({
+  weather,
+  openAddItemPopup,
+  openRegisterPopup,
+  openLoginPopup,
+  isLogged,
+  currentUser,
+}) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
-  const userName = "Terrence Tegegne";
+
+  const [isUserLogged, setIsUserLogged] = React.useState(false);
+
+  const handleClick = () => {
+    setIsUserLogged(!isUserLogged);
+  };
+
+  // const userName = "Terrence Tegegne";
   return (
     <header className="header">
       <div className="header__container">
@@ -21,23 +38,31 @@ function Header({ weather, handleAddClick, handleRegister }) {
         </p>
       </div>
       <div className="navigation__container">
-        <ToggleSwitch />
-
-        <button className="navigation__button" onClick={handleAddClick}>
-          + Add clothes
-        </button>
-        <button className="navigation__button" onClick={handleRegister}>
-          Sign Up
-        </button>
-
-        <NavLink to="/profile" className="navigation__username">
-          {userName}
-          <img className="navigation__avatar" src={avatar} alt="User Avatar" />
-        </NavLink>
-
-        <NavLink to="/signup" className="navigation__username">
-          Sign Up
-        </NavLink>
+        <ToggleSwitch isUserLogged={isUserLogged} handleClick={handleClick} />
+        {isLogged ? (
+          <>
+            <button className="navigation__button" onClick={openAddItemPopup}>
+              + Add clothes
+            </button>
+            <NavLink to="/profile" className="navigation__username">
+              {currentUser.name}
+              <img
+                className="navigation__avatar"
+                src={currentUser.avatar}
+                alt="User Avatar"
+              />
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <button className="navigation__button" onClick={openRegisterPopup}>
+              Sign Up
+            </button>
+            <button className="navigation__button" onClick={openLoginPopup}>
+              Sign In
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

@@ -9,13 +9,15 @@ import AddItemModal from "./AddItemModal";
 import LoginModal from "./LoginModal"; // Nueva línea para importar el componente de inicio de sesión
 import RegisterModal from "./RegisterModal"; // Nueva línea para importar el componente de registro
 import ProtectedRoute from "./ProtectedRoute"; // Nueva línea para importar el componente de ruta protegida
-import { register, authorize } from "../utils/auth";
+import { register, authorize, login, editProfile } from "../utils/auth";
 import Footer from "./Footer";
 import {
   getItemsFromList,
   addItemsToList,
   removeItemsFromList,
   baseURL,
+  likeCard,
+  dislikeCard,
 } from "../utils/api.js";
 import "../blocks/App.css";
 
@@ -26,6 +28,7 @@ import { secretKey, location } from "../utils/constants";
 import { defaultClothingItems } from "../utils/defaultClothingItems";
 
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function App() {
   const [weatherInfo, setWeatherInfo] = useState({});
@@ -37,22 +40,31 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isRegisterPopupActive, setIsRegisterPopupActive] = useState(false);
 
   const history = useHistory();
 
+  const closePopup = () => {
+    setIsPopupActive(false);
+  };
+
   // ----------------- Nueva función para manejar el registro -----------------
 
   const handleRegister = (email, password, name, avatar) => {
-    setIsRegisterPopupActive(true);
+    setIsLoading(true);
     register(email, password, name, avatar)
-      .then(() => {
-        setIsRegisterPopupActive(false);
-        history.push("/signin");
+      .then((res) => {
+        handleLogin(res.email, password);
+        setIsLogged(true);
       })
-      .catch((err) => console.log(err));
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+        closePopup();
+      });
   };
 
   // ----------------- Nueva función para manejar el registro -----------------
@@ -60,28 +72,74 @@ function App() {
   // ----------------- Nueva función para manejar el inicio de sesión -----------------
 
   const handleLogin = (email, password) => {
-    authorize(email, password)
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem("jwt", data.token);
+    setIsLoading(true);
+    login(email, password)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        setIsLogged(true);
+      })
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+        closePopup();
+      });
+  };
+  // ----------------- Nueva función para manejar el inicio de sesión -----------------
+
+  // ----------------- Nueva función para manejar la edición del usuario -----------------
+
+  const handleEditProfile = (name, avatar) => {
+    setIsLoading(true);
+    authorize();
+    editProfile(name, avatar)
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+        closePopup();
+      });
+  };
+
+  // ----------------- Nueva función para manejar la edición del usuario -----------------
+
+  // ----------------- Nueva función para manejar el cierre de sesión -----------------
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setIsLogged(false);
+    setCurrentUser({});
+    history.push("/login");
+  };
+
+  // ----------------- Nueva función para manejar el cierre de sesión -----------------
+
+  // ----------------- Nueva función para autorizar al usuario -----------------
+
+  const handleAuthorize = () => {
+    authorize(localStorage.getItem("jwt"))
+      .then((user) => {
+        if (user) {
+          setCurrentUser(user);
           setIsLogged(true);
-          setCurrentUser(data);
-          setIsPopupActive(false);
-          history.push("/");
+        } else {
+          setCurrentUser({});
+          setIsLogged(false);
         }
       })
       .catch((err) => console.log(err));
   };
 
-  // ----------------- Nueva función para manejar el inicio de sesión -----------------
-
   const handleAddClick = () => {
-    setIsAddClothingPopupActive(true);
+    setIsPopupActive("newItemPopup");
   };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
-    setIsPopupActive(true);
+    setIsPopupActive("cardPopup");
   };
 
   const handleClose = () => {
@@ -172,76 +230,110 @@ function App() {
   };
 
   return (
-    <div className="page">
-      <CurrentTemperatureUnitContext.Provider
-        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-      >
-        <div className="page__content">
-          <Header
-            weather={weatherInfo}
-            handleAddClick={handleAddClick}
-            handleRegister={handleRegister}
-          />
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <CurrentTemperatureUnitContext.Provider
+          value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+        >
+          <div className="page__content">
+            <Header
+              weather={weatherInfo}
+              handleAddClick={handleAddClick}
+              handleRegister={handleRegister}
+              handleLogin={handleLogin}
+              isLogged={isLogged}
+              handleAuthorize={handleAuthorize}
+              currentUser={currentUser}
+              openAddItemPopup={() => {
+                setIsPopupActive("newItemPopup");
+              }}
+              openRegisterPopup={() => {
+                setIsPopupActive("registerPopup");
+              }}
+              openLoginPopup={() => {
+                setIsPopupActive("loginPopup");
+              }}
+            />
 
-          <Switch>
-            <Route exact path="/">
-              <Main
-                weather={weatherInfo}
-                cards={defaultClothing}
-                handleCardClick={handleCardClick}
-              />
-              <ProtectedRoute isLogged={isLogged} path="/profile">
-                <Profile
-                  handleCardClick={handleCardClick}
-                  handleAddClick={handleAddClick}
+            <Switch>
+              <Route exact path="/">
+                <Main
                   weather={weatherInfo}
                   cards={defaultClothing}
-                  handleAddItemModal={handleAddItemModal}
+                  handleCardClick={handleCardClick}
+                  isLogged={isLogged}
+                  currentUser={currentUser}
                 />
-              </ProtectedRoute>
-            </Route>
-          </Switch>
+                <ProtectedRoute isLogged={isLogged} path="/profile">
+                  {isLogged ? <Redirect to="/profile" /> : <Redirect to="/" />}
+                  <Profile
+                    handleCardClick={handleCardClick}
+                    handleAddClick={handleAddClick}
+                    weather={weatherInfo}
+                    cards={defaultClothing}
+                    handleAddItemModal={handleAddItemModal}
+                    likeCard={likeCard}
+                    dislikeCard={dislikeCard}
+                    currentUser={currentUser}
+                    handleLogout={handleLogout}
+                    handleEditProfile={handleEditProfile}
+                    isLoading={isLoading}
+                    isLogged={isLogged}
+                  />
+                </ProtectedRoute>
+              </Route>
+            </Switch>
 
-          <Footer />
-          <ModalWithForm
-            isOpen={isAddClothingPopupActive}
-            title="New garment"
-            name="create-garment"
-            buttonText={isLoading ? "Saving..." : "Save"}
-            onClose={handleClose}
-            closePopup={handleCloseEvent}
-          />
+            <Footer />
 
-          <ItemModal
-            isOpen={isPopupActive}
-            name="preview-card"
-            title="Preview"
-            card={selectedCard}
-            onClose={handleClose}
-            closePopup={handleCloseEvent}
-            handleDeleteItem={handleDeleteItem}
-          />
+            <ModalWithForm
+              isOpen={isAddClothingPopupActive}
+              title="New garment"
+              name="create-garment"
+              buttonText={isLoading ? "Saving..." : "Save"}
+              onClose={handleClose}
+              closePopup={handleCloseEvent}
+            />
 
-          <AddItemModal
-            isOpen={isAddClothingPopupActive}
-            onAddItem={handleAddItemSubmit}
-            onClose={handleClose}
-            closePopup={handleCloseEvent}
-          />
-          <LoginModal
-            isOpen={isAddClothingPopupActive}
-            onClose={handleClose}
-            closePopup={handleCloseEvent}
-          />
-          <RegisterModal
-            isOpen={isRegisterPopupActive}
-            onClose={handleClose}
-            closePopup={handleCloseEvent}
-            onRegister={handleRegister}
-          />
-        </div>
-      </CurrentTemperatureUnitContext.Provider>
-    </div>
+            {isPopupActive === "cardPopup" && (
+              <ItemModal
+                isOpen={isPopupActive}
+                name="preview-card"
+                title="Preview"
+                card={selectedCard}
+                onClose={handleClose}
+                closePopup={handleCloseEvent}
+                handleDeleteItem={handleDeleteItem}
+              />
+            )}
+            {isPopupActive === "newItemPopup" && (
+              <AddItemModal
+                isOpen={isPopupActive === "newItemPopup"}
+                onAddItem={handleAddItemSubmit}
+                onClose={handleClose}
+                closePopup={handleCloseEvent}
+              />
+            )}
+            {isPopupActive === "loginPopup" && (
+              <LoginModal
+                isOpen={isPopupActive === "loginPopup"}
+                onClose={handleClose}
+                closePopup={handleCloseEvent}
+              />
+            )}
+
+            {isPopupActive === "registerPopup" && (
+              <RegisterModal
+                isOpen={isPopupActive === "registerPopup"}
+                onClose={handleClose}
+                closePopup={handleCloseEvent}
+                onRegister={handleRegister}
+              />
+            )}
+          </div>
+        </CurrentTemperatureUnitContext.Provider>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
