@@ -1,8 +1,8 @@
 import React from "react";
 import ItemCard from "./ItemCard";
-import "../blocks/UserItemsList.css";
+import "../blocks/ClothesSection.css";
 
-function UserItemsList({
+function ClothesSection({
   cards,
   handleCardClick,
   openAddItemPopup,
@@ -37,4 +37,4 @@ function UserItemsList({
   );
 }
 
-export default UserItemsList;
+export default ClothesSection;

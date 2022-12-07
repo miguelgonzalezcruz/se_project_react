@@ -258,6 +258,12 @@ function App() {
                 <ProtectedRoute isLogged={isLogged} path="/profile">
                   {isLogged ? <Redirect to="/profile" /> : <Redirect to="/" />}
                   <Profile
+                    openAddItemPopup={() => {
+                      setIsPopupActive("newItemPopup");
+                    }}
+                    openEditProfilePopup={() => {
+                      setIsPopupActive("editProfilePopup");
+                    }}
                     handleCardClick={handleCardClick}
                     handleAddClick={handleAddClick}
                     weather={weatherInfo}
@@ -270,6 +276,8 @@ function App() {
                     handleEditProfile={handleEditProfile}
                     isLoading={isLoading}
                     isLogged={isLogged}
+                    isAddItemOpen={isPopupActive === "newItemPopup"}
+                    isEditProfileOpen={isPopupActive === "editProfilePopup"}
                   />
                 </ProtectedRoute>
               </Route>
