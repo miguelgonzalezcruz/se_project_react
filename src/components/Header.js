@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../blocks/Header.css";
 import logo from "../images/logo-wtwr.svg";
 import ToggleSwitch from "./ToggleSwitch";
@@ -30,9 +30,9 @@ function Header({
   return (
     <header className="header">
       <div className="header__container">
-        <NavLink to="/" className="header__logo">
+        <Link to="/" className="header__logo">
           <img className="header__logo" src={logo} alt="logo WTWR" />
-        </NavLink>
+        </Link>
         <p className="header__date">
           {currentDate}, {weather.city}
         </p>
@@ -44,14 +44,14 @@ function Header({
             <button className="navigation__button" onClick={openAddItemPopup}>
               + Add clothes
             </button>
-            <NavLink to="/profile" className="navigation__username">
+            <Link to="/profile" className="navigation__username">
               {currentUser.name}
               <img
                 className="navigation__avatar"
                 src={currentUser.avatar}
                 alt="User Avatar"
               />
-            </NavLink>
+            </Link>
           </>
         ) : (
           <>
