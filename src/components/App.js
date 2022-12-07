@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
@@ -6,9 +6,9 @@ import Profile from "./Profile";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import AddItemModal from "./AddItemModal";
-import LoginModal from "./LoginModal"; // Nueva línea para importar el componente de inicio de sesión
-import RegisterModal from "./RegisterModal"; // Nueva línea para importar el componente de registro
-import ProtectedRoute from "./ProtectedRoute"; // Nueva línea para importar el componente de ruta protegida
+import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
+import ProtectedRoute from "./ProtectedRoute";
 import { register, authorize, login, editProfile } from "../utils/auth";
 import Footer from "./Footer";
 import {
@@ -42,7 +42,6 @@ function App() {
 
   const [isLogged, setIsLogged] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [isRegisterPopupActive, setIsRegisterPopupActive] = useState(false);
 
   const history = useHistory();
 
@@ -66,9 +65,6 @@ function App() {
         closePopup();
       });
   };
-
-  // ----------------- Nueva función para manejar el registro -----------------
-
   // ----------------- Nueva función para manejar el inicio de sesión -----------------
 
   const handleLogin = (email, password) => {
@@ -85,7 +81,6 @@ function App() {
         closePopup();
       });
   };
-  // ----------------- Nueva función para manejar el inicio de sesión -----------------
 
   // ----------------- Nueva función para manejar la edición del usuario -----------------
 
@@ -104,8 +99,6 @@ function App() {
       });
   };
 
-  // ----------------- Nueva función para manejar la edición del usuario -----------------
-
   // ----------------- Nueva función para manejar el cierre de sesión -----------------
 
   const handleLogout = () => {
@@ -114,8 +107,6 @@ function App() {
     setCurrentUser({});
     history.push("/login");
   };
-
-  // ----------------- Nueva función para manejar el cierre de sesión -----------------
 
   // ----------------- Nueva función para autorizar al usuario -----------------
 

@@ -2,12 +2,20 @@ import React from "react";
 import ItemCard from "./ItemCard";
 import "../blocks/UserItemsList.css";
 
-function UserItemsList({ cards, handleCardClick, handleAddItemClick }) {
+function UserItemsList({
+  cards,
+  handleCardClick,
+  openAddItemPopup,
+  isLogged,
+  currentUser,
+  likeCard,
+  dislikeCard,
+}) {
   return (
     <section className="user-profile__content">
       <div className="user-profile__content_row">
         <p>Your items</p>
-        <button className="add-button" onClick={handleAddItemClick}>
+        <button className="add-button" onClick={openAddItemPopup}>
           + Add new
         </button>
       </div>
@@ -18,6 +26,10 @@ function UserItemsList({ cards, handleCardClick, handleAddItemClick }) {
             card={card}
             cardClick={handleCardClick}
             weather={card.weather}
+            isLogged={isLogged}
+            currentUser={currentUser}
+            likeCard={likeCard}
+            dislikeCard={dislikeCard}
           />
         ))}
       </ul>
