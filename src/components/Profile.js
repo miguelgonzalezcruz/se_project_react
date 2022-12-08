@@ -13,50 +13,54 @@ function Profile({
   cards,
   currentUser,
   handleLogout,
-  openEditModal,
-  openPopup,
+  openEditProfilePopup,
+  openAddItemPopup,
   isLogged,
   likeCard,
   dislikeCard,
-  isAddItemOpen,
   isEditProfileOpen,
   closePopup,
-  handleAddItem,
+  handleAddItemSubmit,
   isLoading,
   handleEditProfile,
+  handleCloseEvent,
+  openAddItem,
+  openEditProfile,
 }) {
   return (
     <div className="user-profile">
       <SideBar
         currentUser={currentUser}
         handleLogout={handleLogout}
-        openEditModal={openEditModal}
+        openEditProfilePopup={openEditProfilePopup}
       />
       <ClothesSection
         weather={weather}
         cards={cards}
         handleCardClick={handleCardClick}
         handleAddItemClick={handleAddItemModal}
-        openPopup={openPopup}
+        openAddItemPopup={openAddItemPopup}
         isLogged={isLogged}
         likeCard={likeCard}
         dislikeCard={dislikeCard}
         currentUser={currentUser}
       />
-      {isAddItemOpen && (
+      {openAddItem && (
         <AddItemModal
-          isOpen={isAddItemOpen}
+          isOpen={openAddItemPopup}
           onClose={closePopup}
-          onAddItem={handleAddItem}
+          onAddItem={handleAddItemSubmit}
           isLoading={isLoading}
+          closePopup={handleCloseEvent}
         />
       )}
-      {isEditProfileOpen && (
+      {openEditProfile && (
         <EditProfileModal
           isOpen={isEditProfileOpen}
           onClose={closePopup}
           onEditProfile={handleEditProfile}
           isLoading={isLoading}
+          closePopup={handleCloseEvent}
         />
       )}
     </div>

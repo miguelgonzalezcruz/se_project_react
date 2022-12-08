@@ -29,6 +29,7 @@ import { defaultClothingItems } from "../utils/defaultClothingItems";
 
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import EditProfileModal from "./EditProfileModal";
 
 function App() {
   const [weatherInfo, setWeatherInfo] = useState({});
@@ -136,6 +137,10 @@ function App() {
   const handleClose = () => {
     setIsPopupActive(false);
     setIsAddClothingPopupActive(false);
+  };
+
+  const handleEditProfileClick = () => {
+    setIsPopupActive("editProfilePopup");
   };
 
   function setCardId(card) {
@@ -327,6 +332,15 @@ function App() {
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 onRegister={handleRegister}
+              />
+            )}
+            {isPopupActive === "editProfilePopup" && (
+              <EditProfileModal
+                isOpen={isPopupActive === "editProfilePopup"}
+                onClose={handleClose}
+                closePopup={handleCloseEvent}
+                onEditProfile={handleEditProfile}
+                currentUser={currentUser}
               />
             )}
           </div>

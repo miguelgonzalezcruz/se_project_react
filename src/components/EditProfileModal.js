@@ -1,5 +1,6 @@
 import React from "react";
 import ModalWithForm from "./ModalWithForm";
+import { withRouter } from "react-router-dom";
 
 const EditProfileModal = ({
   isOpen,
@@ -7,7 +8,7 @@ const EditProfileModal = ({
   closePopup,
   closeEsc,
   isLoading,
-  onEditUser,
+  onEditProfile,
   currentUser,
 }) => {
   const [name, setName] = React.useState(currentUser.name);
@@ -23,7 +24,7 @@ const EditProfileModal = ({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onEditUser(name, avatar);
+    onEditProfile(name, avatar);
   }
 
   return (
@@ -35,7 +36,7 @@ const EditProfileModal = ({
       closeEsc={closeEsc}
       closePopup={closePopup}
       handleSubmit={handleSubmit}
-      buttonText={isLoading ? "Saving..." : "Changes saved"}
+      buttonText={isLoading ? "Saving..." : "Save"}
     >
       <label className="popup__input-label">Name</label>
       <input
@@ -63,4 +64,4 @@ const EditProfileModal = ({
   );
 };
 
-export default EditProfileModal;
+export default withRouter(EditProfileModal);

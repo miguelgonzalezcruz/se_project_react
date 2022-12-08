@@ -15,8 +15,8 @@ function ClothesSection({
     <section className="user-profile__content">
       <div className="user-profile__content_row">
         <p>Your items</p>
-        <button className="add-button" onClick={openAddItemPopup}>
-          + Add new
+        <button className="navigation__button" onClick={openAddItemPopup}>
+          + Add clothes
         </button>
       </div>
       <ul className="user-profile__cards">
@@ -25,6 +25,7 @@ function ClothesSection({
             key={index}
             card={card}
             cardClick={handleCardClick}
+            onLike={likeCard}
             weather={card.weather}
             isLogged={isLogged}
             currentUser={currentUser}
