@@ -323,6 +323,10 @@ function App() {
                 isOpen={isPopupActive === "loginPopup"}
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
+                onLogin={handleLogin}
+                openRegisterPopup={() => {
+                  setIsPopupActive("registerPopup");
+                }}
               />
             )}
 
@@ -332,6 +336,9 @@ function App() {
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 onRegister={handleRegister}
+                openLoginPopup={() => {
+                  setIsPopupActive("loginPopup");
+                }}
               />
             )}
             {isPopupActive === "editProfilePopup" && (

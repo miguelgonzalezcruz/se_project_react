@@ -5,10 +5,24 @@ import "../blocks/Main.css";
 import { weatherType } from "../utils/weatherApi";
 import { useContext } from "react";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
+import { likeCard, dislikeCard } from "../utils/api";
 
-function Main({ weather, cards, handleCardClick }) {
+function Main({ weather, cards, handleCardClick, isLogged, currentUser }) {
   const weatherToday = weather.temperature;
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+  const [selectedCard, setSelectedCard] = React.useState({});
+
+  const onLike = (card) => {
+    if (card.isLiked) {
+      dislikeCard(card._id).then((res) => {
+        setSelectedCard(res);
+      });
+    } else {
+      likeCard(card._id).then((res) => {
+        setSelectedCard(res);
+      });
+    }
+  };
 
   return (
     <main className="main">
@@ -27,7 +41,15 @@ function Main({ weather, cards, handleCardClick }) {
           {cards
             .filter((card) => card.weather === weatherType(weatherToday))
             .map((card, index) => (
-              <ItemCard key={index} card={card} cardClick={handleCardClick} />
+              <ItemCard
+                key={index}
+                card={card}
+                cardClick={handleCardClick}
+                onLike={onLike}
+                weather={card.weather}
+                isLogged={isLogged}
+                currentUser={currentUser}
+              />
             ))}
         </div>
       </section>

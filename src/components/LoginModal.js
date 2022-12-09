@@ -8,7 +8,8 @@ const LoginModal = ({
   closePopup,
   closeEsc,
   isLoading,
-  onRegister,
+  onLogin,
+  openRegisterPopup,
 }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -25,7 +26,7 @@ const LoginModal = ({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onRegister(email, password);
+    onLogin(email, password);
   }
 
   return (
@@ -61,7 +62,7 @@ const LoginModal = ({
       />
       <p className="popup__text">
         or{" "}
-        <Link to="/signup" className="popup__link">
+        <Link to="/signup" className="popup__link" onClick={openRegisterPopup}>
           Sign up
         </Link>
       </p>

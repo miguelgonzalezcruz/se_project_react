@@ -9,6 +9,7 @@ const RegisterModal = ({
   closeEsc,
   isLoading,
   onRegister,
+  openLoginPopup,
 }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -93,7 +94,7 @@ const RegisterModal = ({
       />
       <p className="popup__text">
         Already registered?{" "}
-        <Link className="popup__link" to="/signin">
+        <Link className="popup__link" to="/signin" onClick={openLoginPopup}>
           Log in here
         </Link>
       </p>
