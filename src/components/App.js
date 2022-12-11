@@ -349,9 +349,6 @@ function App() {
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 onLogin={handleLogin}
-                // openRegisterPopup={() => {
-                //   setIsPopupActive("registerPopup");
-                // }}
               />
             )}
             {isPopupActive === "newItemPopup" && (
@@ -369,9 +366,6 @@ function App() {
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 onRegister={handleRegister}
-                // openLoginPopup={() => {
-                //   setIsPopupActive("loginPopup");
-                // }}
               />
             )}
             {isPopupActive === "editProfilePopup" && (

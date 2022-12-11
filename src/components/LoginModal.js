@@ -9,7 +9,7 @@ const LoginModal = ({
   closePopup,
   closeEsc,
   onLogin,
-  openRegisterPopup, // esto no se usa en AddItemModal
+  openRegisterPopup,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
