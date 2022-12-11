@@ -1,20 +1,27 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
+import { Link, withRouter } from "react-router-dom";
 
 const RegisterModal = ({
   isOpen,
+  isLoading,
   onClose,
   closePopup,
   closeEsc,
-  isLoading,
   onRegister,
-  openLoginPopup,
+  openLoginPopup, // En AddItemModal no se usa
 }) => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [avatar, setAvatar] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    setName("");
+    setAvatar("");
+  }, [isOpen]);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -38,7 +45,7 @@ const RegisterModal = ({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onRegister(email, password, name, avatar);
+    onRegister({ email, password, name, avatar });
   }
 
   return (
@@ -59,8 +66,8 @@ const RegisterModal = ({
         name="email"
         value={email}
         placeholder="Email"
-        required
         onChange={handleEmail}
+        required
       />
       <label className="popup__input-label">Password</label>
       <input
@@ -102,4 +109,4 @@ const RegisterModal = ({
   );
 };
 
-export default withRouter(RegisterModal);
+export default RegisterModal;

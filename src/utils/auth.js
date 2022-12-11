@@ -23,7 +23,17 @@ const register = ({ email, password, name, avatar }) => {
   }).then(checkResponse);
 };
 
-const editProfile = (name, avatar) => {
+const login = ({ email, password }) => {
+  return fetch(`${baseURL}/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  }).then(checkResponse);
+};
+
+const editProfile = ({ name, avatar }) => {
   return fetch(`${baseURL}/users/me`, {
     method: "PATCH",
     headers: {
@@ -31,16 +41,6 @@ const editProfile = (name, avatar) => {
       authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
     body: JSON.stringify({ name, avatar }),
-  }).then(checkResponse);
-};
-
-const login = (email, password) => {
-  return fetch(`${baseURL}/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
   }).then(checkResponse);
 };
 

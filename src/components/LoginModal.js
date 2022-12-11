@@ -1,18 +1,23 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import ModalWithForm from "./ModalWithForm";
 import { Link, useHistory, withRouter } from "react-router-dom";
 
 const LoginModal = ({
   isOpen,
+  isLoading,
   onClose,
   closePopup,
   closeEsc,
-  isLoading,
   onLogin,
-  openRegisterPopup,
+  openRegisterPopup, // esto no se usa en AddItemModal
 }) => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, [isOpen]);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -26,7 +31,7 @@ const LoginModal = ({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onLogin(email, password);
+    onLogin({ email, password });
   }
 
   return (
@@ -70,4 +75,4 @@ const LoginModal = ({
   );
 };
 
-export default withRouter(LoginModal);
+export default LoginModal;

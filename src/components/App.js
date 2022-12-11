@@ -6,8 +6,8 @@ import Profile from "./Profile";
 import ModalWithForm from "./ModalWithForm";
 import ItemModal from "./ItemModal";
 import AddItemModal from "./AddItemModal";
-import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
+import LoginModal from "./LoginModal";
 import ProtectedRoute from "./ProtectedRoute";
 import { register, authorize, login, editProfile } from "../utils/auth";
 import Footer from "./Footer";
@@ -56,7 +56,7 @@ function App() {
     setIsLoading(true);
     register(email, password, name, avatar)
       .then((res) => {
-        handleLogin(res.email, password);
+        handleLogin(res.email, res.password);
         setIsLogged(true);
       })
       .then(handleClose)
@@ -66,13 +66,13 @@ function App() {
         closePopup();
       });
   };
-  // ----------------- Nueva función para manejar el inicio de sesión -----------------
 
   const handleLogin = (email, password) => {
     setIsLoading(true);
     login(email, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
+        handleAuthorize();
         setIsLogged(true);
       })
       .then(handleClose)
@@ -82,6 +82,52 @@ function App() {
         closePopup();
       });
   };
+
+  const handleAuthorize = () => {
+    authorize(localStorage.getItem("jwt"))
+      .then((user) => {
+        if (user) {
+          setCurrentUser(user);
+          setIsLogged(true);
+        } else {
+          setCurrentUser({});
+          setIsLogged(false);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleAddItemSubmit = (name, weather, imageUrl) => {
+    setIsLoading(true);
+    addItemsToList(name, weather, imageUrl)
+      .then((card) => {
+        setCardId(card);
+        setDefaultClothing([card, ...defaultClothing]);
+      })
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  // ----------------- Nueva función para manejar el inicio de sesión -----------------
+
+  // const handleLogin = (email, password) => {
+  //   setIsLoading(true);
+  //   login(email, password)
+  //     .then((res) => {
+  //       localStorage.setItem("jwt", res.token);
+  //       handleAuthorize();
+  //       setIsLogged(true);
+  //     })
+  //     .then(handleClose)
+  //     .catch((err) => console.log(err))
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //       closePopup();
+  //     });
+  // };
 
   // ----------------- Nueva función para manejar la edición del usuario -----------------
 
@@ -111,20 +157,6 @@ function App() {
 
   // ----------------- Nueva función para autorizar al usuario -----------------
 
-  const handleAuthorize = () => {
-    authorize(localStorage.getItem("jwt"))
-      .then((user) => {
-        if (user) {
-          setCurrentUser(user);
-          setIsLogged(true);
-        } else {
-          setCurrentUser({});
-          setIsLogged(false);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
   const handleAddClick = () => {
     setIsPopupActive("newItemPopup");
   };
@@ -147,19 +179,19 @@ function App() {
     card.id = defaultClothing.length + 1;
   }
 
-  const handleAddItemSubmit = (name, weather, imageUrl) => {
-    setIsLoading(true);
-    addItemsToList(name, weather, imageUrl)
-      .then((card) => {
-        setCardId(card);
-        setDefaultClothing([card, ...defaultClothing]);
-      })
-      .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+  // const handleAddItemSubmit = (name, weather, imageUrl) => {
+  //   setIsLoading(true);
+  //   addItemsToList(name, weather, imageUrl)
+  //     .then((card) => {
+  //       setCardId(card);
+  //       setDefaultClothing([card, ...defaultClothing]);
+  //     })
+  //     .then(handleClose)
+  //     .catch((err) => console.log(err))
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // };
 
   const handleDeleteItem = () => {
     removeItemsFromList(baseURL, selectedCard.id)
@@ -310,23 +342,24 @@ function App() {
                 handleDeleteItem={handleDeleteItem}
               />
             )}
-            {isPopupActive === "newItemPopup" && (
-              <AddItemModal
-                isOpen={isPopupActive === "newItemPopup"}
-                onAddItem={handleAddItemSubmit}
-                onClose={handleClose}
-                closePopup={handleCloseEvent}
-              />
-            )}
+
             {isPopupActive === "loginPopup" && (
               <LoginModal
                 isOpen={isPopupActive === "loginPopup"}
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 onLogin={handleLogin}
-                openRegisterPopup={() => {
-                  setIsPopupActive("registerPopup");
-                }}
+                // openRegisterPopup={() => {
+                //   setIsPopupActive("registerPopup");
+                // }}
+              />
+            )}
+            {isPopupActive === "newItemPopup" && (
+              <AddItemModal
+                isOpen={isPopupActive === "newItemPopup"}
+                onAddItem={handleAddItemSubmit}
+                onClose={handleClose}
+                closePopup={handleCloseEvent}
               />
             )}
 
@@ -336,9 +369,9 @@ function App() {
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 onRegister={handleRegister}
-                openLoginPopup={() => {
-                  setIsPopupActive("loginPopup");
-                }}
+                // openLoginPopup={() => {
+                //   setIsPopupActive("loginPopup");
+                // }}
               />
             )}
             {isPopupActive === "editProfilePopup" && (
