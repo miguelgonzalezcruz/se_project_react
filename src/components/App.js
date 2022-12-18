@@ -41,95 +41,66 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [isLogged, setIsLogged] = useState(false); // <-- ¿Está el usuario logueado?
+  const [currentUser, setCurrentUser] = useState({}); // <-- Datos del usuario logueado
 
-  const history = useHistory();
+  const history = useHistory(); // <-- Gestiona el historial de navegación
 
   const closePopup = () => {
     setIsPopupActive(false);
   };
 
-  // ----------------- Nueva función para manejar el registro -----------------
+  // ----------------- REGISTRO NUEVO USUARIO -----------------
 
   const handleRegister = (email, password, name, avatar) => {
-    setIsLoading(true);
-    register(email, password, name, avatar)
-      .then((res) => {
-        handleLogin(res.email, res.password);
-        setIsLogged(true);
-      })
+    register(email, password, name, avatar) // <-- Viene de Auth.js
+      // .then((res) => {
+      //   //OJO El servidor parece que no devuelve el token ****
+      //   handleLogin(res.email, res.password); // <-- ¿Por qué no funciona?
+      //   setIsLogged(true);
+      // })
       .then(handleClose)
       .catch((err) => console.log(err))
       .finally(() => {
-        setIsLoading(false);
         closePopup();
       });
   };
 
+  // ----------------- LOGIN USUARIO -----------------
+
   const handleLogin = (email, password) => {
-    setIsLoading(true);
     login(email, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
+        console.log(res.token);
         handleAuthorize();
         setIsLogged(true);
       })
       .then(handleClose)
       .catch((err) => console.log(err))
       .finally(() => {
-        setIsLoading(false);
         closePopup();
       });
   };
 
+  // ----------------- AUTORIZACIÓN USUARIO -----------------
+
   const handleAuthorize = () => {
+    // <-- ¿Debe integrarse en el Login?
     authorize(localStorage.getItem("jwt"))
       .then((user) => {
         if (user) {
-          setCurrentUser(user);
           setIsLogged(true);
+          setCurrentUser(user);
         } else {
-          setCurrentUser({});
           setIsLogged(false);
+          setCurrentUser({});
         }
       })
       .catch((err) => console.log(err));
   };
 
-  const handleAddItemSubmit = (name, weather, imageUrl) => {
-    setIsLoading(true);
-    addItemsToList(name, weather, imageUrl)
-      .then((card) => {
-        setCardId(card);
-        setDefaultClothing([card, ...defaultClothing]);
-      })
-      .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  // ----------------- Nueva función para manejar el inicio de sesión -----------------
-
-  // const handleLogin = (email, password) => {
-  //   setIsLoading(true);
-  //   login(email, password)
-  //     .then((res) => {
-  //       localStorage.setItem("jwt", res.token);
-  //       handleAuthorize();
-  //       setIsLogged(true);
-  //     })
-  //     .then(handleClose)
-  //     .catch((err) => console.log(err))
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //       closePopup();
-  //     });
-  // };
-
-  // ----------------- Nueva función para manejar la edición del usuario -----------------
+  // ----------------- EDITAR PERFIL USUARIO -----------------
 
   const handleEditProfile = (name, avatar) => {
     setIsLoading(true);
@@ -146,7 +117,7 @@ function App() {
       });
   };
 
-  // ----------------- Nueva función para manejar el cierre de sesión -----------------
+  // ----------------- CERRAR SESIÓN -----------------
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
@@ -155,10 +126,20 @@ function App() {
     history.push("/login");
   };
 
-  // ----------------- Nueva función para autorizar al usuario -----------------
+  // ----------- Código anterior que funciona OK ------------
 
-  const handleAddClick = () => {
-    setIsPopupActive("newItemPopup");
+  const handleAddItemSubmit = (name, weather, imageUrl) => {
+    setIsLoading(true);
+    addItemsToList(name, weather, imageUrl)
+      .then((card) => {
+        setCardId(card);
+        setDefaultClothing([card, ...defaultClothing]);
+      })
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleCardClick = (card) => {
@@ -171,27 +152,9 @@ function App() {
     setIsAddClothingPopupActive(false);
   };
 
-  const handleEditProfileClick = () => {
-    setIsPopupActive("editProfilePopup");
-  };
-
   function setCardId(card) {
     card.id = defaultClothing.length + 1;
   }
-
-  // const handleAddItemSubmit = (name, weather, imageUrl) => {
-  //   setIsLoading(true);
-  //   addItemsToList(name, weather, imageUrl)
-  //     .then((card) => {
-  //       setCardId(card);
-  //       setDefaultClothing([card, ...defaultClothing]);
-  //     })
-  //     .then(handleClose)
-  //     .catch((err) => console.log(err))
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // };
 
   const handleDeleteItem = () => {
     removeItemsFromList(baseURL, selectedCard.id)
@@ -266,7 +229,6 @@ function App() {
           <div className="page__content">
             <Header
               weather={weatherInfo}
-              handleAddClick={handleAddClick}
               handleRegister={handleRegister}
               handleLogin={handleLogin}
               isLogged={isLogged}
@@ -303,10 +265,8 @@ function App() {
                     setIsPopupActive("editProfilePopup");
                   }}
                   handleCardClick={handleCardClick}
-                  handleAddClick={handleAddClick}
                   weather={weatherInfo}
                   cards={defaultClothing}
-                  handleAddItemModal={handleAddItemModal}
                   likeCard={likeCard}
                   dislikeCard={dislikeCard}
                   currentUser={currentUser}
@@ -314,8 +274,6 @@ function App() {
                   handleEditProfile={handleEditProfile}
                   isLoading={isLoading}
                   isLogged={isLogged}
-                  isAddItemOpen={isPopupActive === "newItemPopup"}
-                  isEditProfileOpen={isPopupActive === "editProfilePopup"}
                 />
               </Route>
             </Switch>

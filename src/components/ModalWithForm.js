@@ -9,7 +9,6 @@ function ModalWithForm({
   name,
   title,
   handleSubmit,
-  onClose,
 }) {
   return (
     <div

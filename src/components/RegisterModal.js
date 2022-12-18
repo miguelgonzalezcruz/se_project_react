@@ -45,7 +45,7 @@ const RegisterModal = ({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onRegister({ email, password, name, avatar });
+    onRegister(email, password, name, avatar);
   }
 
   return (

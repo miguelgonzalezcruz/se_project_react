@@ -31,7 +31,7 @@ const LoginModal = ({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onLogin({ email, password });
+    onLogin(email, password);
   }
 
   return (

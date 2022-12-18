@@ -18,7 +18,6 @@ function Profile({
   isLogged,
   likeCard,
   dislikeCard,
-  isEditProfileOpen,
   closePopup,
   handleAddItemSubmit,
   isLoading,
@@ -56,7 +55,7 @@ function Profile({
       )}
       {openEditProfile && (
         <EditProfileModal
-          isOpen={isEditProfileOpen}
+          isOpen={openEditProfilePopup}
           onClose={closePopup}
           onEditProfile={handleEditProfile}
           isLoading={isLoading}
