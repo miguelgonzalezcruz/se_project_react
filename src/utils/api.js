@@ -38,16 +38,17 @@ const removeItemsFromList = (baseURL, id) => {
 };
 
 const likeCard = (id) => {
-  return fetch(`${baseURL}/${id}/likes`, {
+  return fetch(`${baseURL}/items/${id}/likes`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
   }).then(handleApiResponse);
 };
 
 const dislikeCard = (id) => {
-  return fetch(`${baseURL}/${id}/likes`, {
+  return fetch(`${baseURL}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

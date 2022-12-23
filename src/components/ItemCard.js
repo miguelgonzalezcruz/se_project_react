@@ -1,8 +1,11 @@
 import React from "react";
 import "../blocks/ItemCard.css";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function ItemCard({ card, cardClick, onLike }) {
-  const [isLiked, setIsLiked] = React.useState(false);
+function ItemCard({ card, cardClick, onLike, isLogged }) {
+  const currentUser = React.useContext(CurrentUserContext);
+
+  const [isLiked, setIsLiked] = React.useState(card.isLiked);
 
   function handleLikeClick() {
     setIsLiked(!isLiked);

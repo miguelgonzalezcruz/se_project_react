@@ -83,6 +83,21 @@ function App() {
       });
   };
 
+  // ----------------- EDITAR PERFIL USUARIO -----------------
+
+  const handleEditProfile = (name, avatar) => {
+    editProfile(name, avatar)
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+        closePopup();
+      });
+  };
+
   // ----------------- AUTORIZACIÓN USUARIO -----------------
 
   const handleAuthorize = () => {
@@ -100,22 +115,9 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  // ----------------- EDITAR PERFIL USUARIO -----------------
-
-  const handleEditProfile = (name, avatar) => {
-    setIsLoading(true);
-    authorize();
-    editProfile(name, avatar)
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-        closePopup();
-      });
-  };
+  useEffect(() => {
+    handleAuthorize();
+  }, []);
 
   // ----------------- CERRAR SESIÓN -----------------
 
@@ -166,6 +168,22 @@ function App() {
       })
       .then(handleClose)
       .catch((err) => console.log(err));
+  };
+  // -- Aquí estamos trabajando el Like ------------
+  const handleLikeClick = ({ cardId, isLiked, user }) => {
+    const token = localStorage.getItem("jwt");
+    isLiked ? dislikeCard(cardId, token) : likeCard(cardId, token);
+    const newDefaultClothing = defaultClothing.map((card) => {
+      if (card.id === cardId) {
+        return {
+          ...card,
+          likes: isLiked
+            ? card.likes.filter((like) => like.user !== user)
+            : [...card.likes, { user: user }],
+        };
+      }
+      return card;
+    });
   };
 
   useEffect(() => {
@@ -253,6 +271,8 @@ function App() {
                   handleCardClick={handleCardClick}
                   isLogged={isLogged}
                   currentUser={currentUser}
+                  likeCard={likeCard}
+                  dislikeCard={dislikeCard}
                 />
               </Route>
               <Route isLogged={isLogged} path="/profile">
