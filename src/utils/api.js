@@ -37,17 +37,25 @@ const removeItemsFromList = (baseURL, id) => {
   }).then(handleApiResponse);
 };
 
-const likeCard = (id) => {
-  return fetch(`${baseURL}/items/${id}/likes`, {
-    method: "PUT",
+const toggleLikeStatus = (baseURL, id) => {
+  return fetch(`${baseURL}/${id}/likes`, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
   }).then(handleApiResponse);
 };
 
-const dislikeCard = (id) => {
+const likeCard = (baseURL, id) => {
+  return fetch(`${baseURL}/items/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(handleApiResponse);
+};
+
+const dislikeCard = (baseURL, id) => {
   return fetch(`${baseURL}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
@@ -62,5 +70,6 @@ export {
   removeItemsFromList,
   likeCard,
   dislikeCard,
+  toggleLikeStatus,
   baseURL,
 };

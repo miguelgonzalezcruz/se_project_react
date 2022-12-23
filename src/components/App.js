@@ -18,6 +18,7 @@ import {
   baseURL,
   likeCard,
   dislikeCard,
+  toggleLikeStatus,
 } from "../utils/api.js";
 import "../blocks/App.css";
 
@@ -169,21 +170,35 @@ function App() {
       .then(handleClose)
       .catch((err) => console.log(err));
   };
+
   // -- Aquí estamos trabajando el Like ------------
-  const handleLikeClick = ({ cardId, isLiked, user }) => {
-    const token = localStorage.getItem("jwt");
-    isLiked ? dislikeCard(cardId, token) : likeCard(cardId, token);
-    const newDefaultClothing = defaultClothing.map((card) => {
-      if (card.id === cardId) {
-        return {
-          ...card,
-          likes: isLiked
-            ? card.likes.filter((like) => like.user !== user)
-            : [...card.likes, { user: user }],
-        };
-      }
-      return card;
-    });
+  const handleLike = ({ id, isLiked, user }) => {
+    const isLikedByUser = user.some((user) => user._id === currentUser._id);
+    if (isLikedByUser) {
+      dislikeCard(id)
+        .then((res) => {
+          const newDefaultClothing = defaultClothing.map((card) => {
+            if (card.id === id) {
+              return res;
+            }
+            return card;
+          });
+          setDefaultClothing(newDefaultClothing);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      likeCard(id)
+        .then((res) => {
+          const newDefaultClothing = defaultClothing.map((card) => {
+            if (card.id === id) {
+              return res;
+            }
+            return card;
+          });
+          setDefaultClothing(newDefaultClothing);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   useEffect(() => {
@@ -273,6 +288,7 @@ function App() {
                   currentUser={currentUser}
                   likeCard={likeCard}
                   dislikeCard={dislikeCard}
+                  handleLike={handleLike}
                 />
               </Route>
               <Route isLogged={isLogged} path="/profile">
@@ -294,6 +310,7 @@ function App() {
                   handleEditProfile={handleEditProfile}
                   isLoading={isLoading}
                   isLogged={isLogged}
+                  handleLike={handleLike}
                 />
               </Route>
             </Switch>
