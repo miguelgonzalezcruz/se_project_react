@@ -1,5 +1,6 @@
 import React from "react";
 import ItemCard from "./ItemCard";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 import "../blocks/ClothesSection.css";
 
 function ClothesSection({
@@ -7,10 +8,11 @@ function ClothesSection({
   handleCardClick,
   openAddItemPopup,
   isLogged,
-  currentUser,
   likeCard,
   dislikeCard,
+  onLike,
 }) {
+  const currentUser = React.useContext(CurrentUserContext);
   return (
     <section className="user-profile__content">
       <div className="user-profile__content_row">
@@ -20,17 +22,20 @@ function ClothesSection({
         </button>
       </div>
       <ul className="user-profile__cards">
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <ItemCard
-            key={index}
-            card={card}
-            cardClick={handleCardClick}
-            onLike={likeCard}
+            key={card._id}
+            id={card._id}
+            name={card.name}
+            image={card.imageUrl}
             weather={card.weather}
+            card={card}
             isLogged={isLogged}
+            cardClick={handleCardClick}
             currentUser={currentUser}
             likeCard={likeCard}
             dislikeCard={dislikeCard}
+            onLike={onLike}
           />
         ))}
       </ul>

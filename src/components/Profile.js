@@ -18,6 +18,7 @@ function Profile({
   isLogged,
   likeCard,
   dislikeCard,
+  onLike,
   closePopup,
   handleAddItemSubmit,
   isLoading,
@@ -43,6 +44,7 @@ function Profile({
         likeCard={likeCard}
         dislikeCard={dislikeCard}
         currentUser={currentUser}
+        onLike={onLike}
       />
       {openAddItem && (
         <AddItemModal

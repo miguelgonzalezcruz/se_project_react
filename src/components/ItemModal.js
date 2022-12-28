@@ -1,7 +1,11 @@
 import React from "react";
 import "../blocks/ItemModal.css";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function ItemModal({ card, onClose, closePopup, isOpen, handleDeleteItem }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const isOwn = card.owner === currentUser._id;
+
   return (
     <div
       className={`card__popup ${isOpen ? `popup_open` : ""}`}
@@ -19,13 +23,16 @@ function ItemModal({ card, onClose, closePopup, isOpen, handleDeleteItem }) {
         <p className="card__popup-description_temperature">
           Weather: {card.weather}
         </p>
-        <button
-          className="card__popup-delete-clothes"
-          onClick={handleDeleteItem}
-        >
-          Delete Item
-        </button>
-        <button className="card__popup-close" onClick={onClose}></button>
+        {isOwn && (
+          <button
+            type="button"
+            className="card__popup-delete-clothes"
+            onClick={handleDeleteItem}
+          >
+            Delete Item
+          </button>
+        )}
+        ;<button className="card__popup-close" onClick={onClose}></button>
       </div>
     </div>
   );

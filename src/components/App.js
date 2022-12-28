@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import "../blocks/App.css";
+
+// ----------- Components -------------
+
 import Header from "./Header";
 import Main from "./Main";
 import Profile from "./Profile";
@@ -8,9 +12,12 @@ import ItemModal from "./ItemModal";
 import AddItemModal from "./AddItemModal";
 import RegisterModal from "./RegisterModal";
 import LoginModal from "./LoginModal";
-import ProtectedRoute from "./ProtectedRoute";
-import { register, authorize, login, editProfile } from "../utils/auth";
+import EditProfileModal from "./EditProfileModal";
 import Footer from "./Footer";
+
+// ----------- Utils -------------
+
+import { register, authorize, login, editProfile } from "../utils/auth";
 import {
   getItemsFromList,
   addItemsToList,
@@ -18,34 +25,35 @@ import {
   baseURL,
   likeCard,
   dislikeCard,
-  toggleLikeStatus,
 } from "../utils/api.js";
-import "../blocks/App.css";
-
 import { getForecastWeather, filterDataFromTheApi } from "../utils/weatherApi";
-
 import { secretKey, location } from "../utils/constants";
-
 import { defaultClothingItems } from "../utils/defaultClothingItems";
+
+// ----------- Contexts -------------
 
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../contexts/CurrentUserContext";
-import EditProfileModal from "./EditProfileModal";
 
 function App() {
   const [weatherInfo, setWeatherInfo] = useState({});
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+
   const [isPopupActive, setIsPopupActive] = useState(false);
   const [isAddClothingPopupActive, setIsAddClothingPopupActive] =
     useState(false);
+
   const [selectedCard, setSelectedCard] = useState({});
+
   const [defaultClothing, setDefaultClothing] = useState([]);
-  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(false); // <-- ¿Está el usuario logueado?
-  const [currentUser, setCurrentUser] = useState({}); // <-- Datos del usuario logueado
+  const [isLogged, setIsLogged] = useState(false);
 
-  const history = useHistory(); // <-- Gestiona el historial de navegación
+  const [currentUser, setCurrentUser] = useState({});
+
+  const history = useHistory();
 
   const closePopup = () => {
     setIsPopupActive(false);
@@ -54,12 +62,12 @@ function App() {
   // ----------------- REGISTRO NUEVO USUARIO -----------------
 
   const handleRegister = (email, password, name, avatar) => {
-    register(email, password, name, avatar) // <-- Viene de Auth.js
-      // .then((res) => {
-      //   //OJO El servidor parece que no devuelve el token ****
-      //   handleLogin(res.email, res.password); // <-- ¿Por qué no funciona?
-      //   setIsLogged(true);
-      // })
+    register(email, password, name, avatar)
+      .then((res) => {
+        console.log(res);
+        handleLogin(res.email, password);
+        setIsLogged(true);
+      })
       .then(handleClose)
       .catch((err) => console.log(err))
       .finally(() => {
@@ -129,10 +137,12 @@ function App() {
     history.push("/login");
   };
 
-  // ----------- Código anterior que funciona OK ------------
+  // ********* Clothes Actions *********
+
+  // ----------------- ADD CLOTHES -----------------
 
   const handleAddItemSubmit = (name, weather, imageUrl) => {
-    setIsLoading(true);
+    console.log(name, weather, imageUrl);
     addItemsToList(name, weather, imageUrl)
       .then((card) => {
         setCardId(card);
@@ -145,19 +155,7 @@ function App() {
       });
   };
 
-  const handleCardClick = (card) => {
-    setSelectedCard(card);
-    setIsPopupActive("cardPopup");
-  };
-
-  const handleClose = () => {
-    setIsPopupActive(false);
-    setIsAddClothingPopupActive(false);
-  };
-
-  function setCardId(card) {
-    card.id = defaultClothing.length + 1;
-  }
+  // ----------------- DELETE CLOTHES -----------------
 
   const handleDeleteItem = () => {
     removeItemsFromList(baseURL, selectedCard.id)
@@ -171,35 +169,41 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  // -- Aquí estamos trabajando el Like ------------
-  const handleLike = ({ id, isLiked, user }) => {
-    const isLikedByUser = user.some((user) => user._id === currentUser._id);
-    if (isLikedByUser) {
-      dislikeCard(id)
-        .then((res) => {
-          const newDefaultClothing = defaultClothing.map((card) => {
-            if (card.id === id) {
-              return res;
-            }
-            return card;
-          });
-          setDefaultClothing(newDefaultClothing);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      likeCard(id)
-        .then((res) => {
-          const newDefaultClothing = defaultClothing.map((card) => {
-            if (card.id === id) {
-              return res;
-            }
-            return card;
-          });
-          setDefaultClothing(newDefaultClothing);
-        })
-        .catch((err) => console.log(err));
+  // ****** Popup Actions ******
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setIsPopupActive("cardPopup");
+  };
+
+  const handleClose = () => {
+    setIsPopupActive(false);
+    setIsAddClothingPopupActive(false);
+  };
+
+  const handleCloseEvent = (event) => {
+    if (event.target === event.currentTarget) {
+      handleClose();
     }
   };
+
+  function setCardId(card) {
+    card.id = defaultClothing.length + 1;
+  }
+
+  // ***** Use Effects *****
+
+  useEffect(() => {
+    getItemsFromList()
+      .then((items) => {
+        setDefaultClothing(items);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    setDefaultClothing(defaultClothingItems);
+  }, []);
 
   useEffect(() => {
     const closeOnEscape = (e) => {
@@ -215,11 +219,7 @@ function App() {
     };
   }, [isAddClothingPopupActive, isPopupActive]);
 
-  const handleCloseEvent = (event) => {
-    if (event.target === event.currentTarget) {
-      handleClose();
-    }
-  };
+  // --- Weather ---
 
   useEffect(() => {
     if (location.latitude && location.longitude) {
@@ -231,26 +231,41 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    getItemsFromList(`${baseURL}`)
-      .then((items) => {
-        setDefaultClothing(items);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    setDefaultClothing(defaultClothingItems);
-  }, []);
-
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
   };
 
-  const handleAddItemModal = () => {
-    setIsAddClothingPopupActive(true);
+  // **** Like Actions ****
+
+  const handleLike = (card) => {
+    likeCard(card.id)
+      .then((likedCard) => {
+        setDefaultClothing((state) =>
+          state.map((c) => (c._id === card.id ? likedCard : c))
+        );
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDislike = (card) => {
+    likeCard(card.id)
+      .then((likedCard) => {
+        setDefaultClothing((state) =>
+          state.map((c) => (c._id === card.id ? likedCard : c))
+        );
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleLikeClick = (card, isLiked) => {
+    const token = localStorage.getItem("jwt");
+    if (isLiked) {
+      handleDislike(card, token);
+    } else {
+      handleLike(card, token);
+    }
   };
 
   return (
@@ -289,6 +304,8 @@ function App() {
                   likeCard={likeCard}
                   dislikeCard={dislikeCard}
                   handleLike={handleLike}
+                  onLike={handleLike}
+                  handlelikeClick={handleLikeClick}
                 />
               </Route>
               <Route isLogged={isLogged} path="/profile">
@@ -303,14 +320,17 @@ function App() {
                   handleCardClick={handleCardClick}
                   weather={weatherInfo}
                   cards={defaultClothing}
-                  likeCard={likeCard}
-                  dislikeCard={dislikeCard}
                   currentUser={currentUser}
                   handleLogout={handleLogout}
                   handleEditProfile={handleEditProfile}
                   isLoading={isLoading}
                   isLogged={isLogged}
+                  handleAddItemSubmit={handleAddItemSubmit}
+                  likeCard={likeCard}
+                  dislikeCard={dislikeCard}
                   handleLike={handleLike}
+                  onLike={handleLike}
+                  handlelikeClick={handleLikeClick}
                 />
               </Route>
             </Switch>
@@ -335,6 +355,7 @@ function App() {
                 onClose={handleClose}
                 closePopup={handleCloseEvent}
                 handleDeleteItem={handleDeleteItem}
+                currentUser={currentUser}
               />
             )}
 

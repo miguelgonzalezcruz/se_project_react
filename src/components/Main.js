@@ -6,23 +6,20 @@ import { weatherType } from "../utils/weatherApi";
 import { useContext } from "react";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import { likeCard, dislikeCard } from "../utils/api";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Main({ weather, cards, handleCardClick, isLogged, currentUser }) {
+function Main({
+  weather,
+  cards,
+  handleCardClick,
+  isLogged,
+  onLike,
+  handlelikeClick,
+}) {
   const weatherToday = weather.temperature;
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   const [selectedCard, setSelectedCard] = React.useState({});
-
-  const onLike = (card) => {
-    if (card.isLiked) {
-      dislikeCard(card._id).then((res) => {
-        setSelectedCard(res);
-      });
-    } else {
-      likeCard(card._id).then((res) => {
-        setSelectedCard(res);
-      });
-    }
-  };
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="main">
@@ -40,15 +37,25 @@ function Main({ weather, cards, handleCardClick, isLogged, currentUser }) {
         <div className="main__cards">
           {cards
             .filter((card) => card.weather === weatherType(weatherToday))
-            .map((card, index) => (
+            .map((card) => (
               <ItemCard
-                key={index}
+                key={card._id}
+                _id={card._id}
                 card={card}
+                name={card.name}
+                image={card.imageUrl}
                 cardClick={handleCardClick}
-                onLike={onLike}
+                // onLike={onLike}
                 weather={card.weather}
                 isLogged={isLogged}
                 currentUser={currentUser}
+                onLike={() => {
+                  handlelikeClick(
+                    card._id,
+                    card.likes.includes(currentUser._id),
+                    currentUser
+                  );
+                }}
               />
             ))}
         </div>
