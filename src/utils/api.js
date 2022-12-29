@@ -32,7 +32,7 @@ const addItemsToList = (name, imageUrl, weather) => {
   }).then(handleApiResponse);
 };
 
-const removeItemsFromList = (baseURL, id) => {
+const removeItemsFromList = (id) => {
   return fetch(`${baseURL}/${id}`, {
     method: "DELETE",
     headers: {
@@ -56,6 +56,7 @@ const dislikeCard = (id) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
   }).then(handleApiResponse);
 };

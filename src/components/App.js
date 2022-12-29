@@ -240,7 +240,7 @@ function App() {
   // **** Like Actions ****
 
   const handleLike = (card) => {
-    likeCard(card.id)
+    likeCard(card)
       .then((likedCard) => {
         setDefaultClothing((state) =>
           state.map((c) => (c._id === card.id ? likedCard : c))
@@ -250,7 +250,7 @@ function App() {
   };
 
   const handleDislike = (card) => {
-    likeCard(card.id)
+    dislikeCard(card)
       .then((likedCard) => {
         setDefaultClothing((state) =>
           state.map((c) => (c._id === card.id ? likedCard : c))
@@ -303,6 +303,7 @@ function App() {
                   currentUser={currentUser}
                   likeCard={likeCard}
                   dislikeCard={dislikeCard}
+                  handleDislike={handleDislike}
                   handleLike={handleLike}
                   onLike={handleLike}
                   handlelikeClick={handleLikeClick}
