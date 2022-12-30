@@ -26,6 +26,7 @@ function Profile({
   handleCloseEvent,
   openAddItem,
   openEditProfile,
+  handlelikeClick,
 }) {
   return (
     <div className="user-profile">
@@ -44,7 +45,8 @@ function Profile({
         likeCard={likeCard}
         dislikeCard={dislikeCard}
         currentUser={currentUser}
-        onLike={onLike}
+        onLike={handlelikeClick}
+        handlelikeClick={handlelikeClick}
       />
       {openAddItem && (
         <AddItemModal
