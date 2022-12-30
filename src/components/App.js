@@ -158,7 +158,7 @@ function App() {
   // ----------------- DELETE CLOTHES -----------------
 
   const handleDeleteItem = () => {
-    removeItemsFromList(baseURL, selectedCard.id)
+    removeItemsFromList(selectedCard._id)
       .then(() => {
         const newDefaultClothing = defaultClothing.filter(
           (card) => card.id !== selectedCard.id
@@ -376,6 +376,7 @@ function App() {
                 closePopup={handleCloseEvent}
                 handleDeleteItem={handleDeleteItem}
                 currentUser={currentUser}
+                isLogged={isLogged}
               />
             )}
 

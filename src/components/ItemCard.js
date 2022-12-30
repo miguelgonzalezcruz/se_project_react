@@ -6,6 +6,10 @@ function ItemCard(props) {
   const currentUser = React.useContext(CurrentUserContext);
   const isLiked = props.card.likes.includes(currentUser._id);
 
+  const openModal = () => {
+    props.cardClick(props.card);
+  };
+
   return (
     <li>
       <div className="card__wrapper">
@@ -25,7 +29,7 @@ function ItemCard(props) {
           className="card__image"
           src={props.image}
           alt={props.name}
-          onClick={props.cardClick}
+          onClick={openModal}
           name={props.name}
         />
       </div>

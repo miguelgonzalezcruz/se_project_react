@@ -4,7 +4,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function ItemModal({ card, onClose, closePopup, isOpen, handleDeleteItem }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const isOwn = card.owner === currentUser._id;
+  const isOwner = card.owner === currentUser._id;
 
   return (
     <div
@@ -23,7 +23,7 @@ function ItemModal({ card, onClose, closePopup, isOpen, handleDeleteItem }) {
         <p className="card__popup-description_temperature">
           Weather: {card.weather}
         </p>
-        {isOwn && (
+        {isOwner && (
           <button
             type="button"
             className="card__popup-delete-clothes"
