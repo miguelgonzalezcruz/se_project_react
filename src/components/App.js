@@ -268,25 +268,6 @@ function App() {
     }
   };
 
-  // const handleLikeClick = ({ card, isLiked, user }) => {
-  //   const token = localStorage.getItem("jwt");
-  //   isLiked
-  //     ? likeCard({ card, user }, token)
-  //         .then((likedCard) => {
-  //           setDefaultClothing((cards) =>
-  //             cards.map((c) => (c._id === card.id ? likedCard : c))
-  //           );
-  //         })
-  //         .catch((err) => console.log(err))
-  //     : dislikeCard({ card, user }, token)
-  //         .then((likedCard) => {
-  //           setDefaultClothing((cards) =>
-  //             cards.map((c) => (c._id === card.id ? likedCard : c))
-  //           );
-  //         })
-  //         .catch((err) => console.log(err));
-  // };
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
