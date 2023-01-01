@@ -17,7 +17,11 @@ function SideBar({
     <div className="user-profile">
       <section className="user-profile__sidebar">
         <div className="sidebar__row">
-          <img src={currentUser.avatar} alt="User Avatar" />
+          <img
+            src={currentUser.avatar}
+            alt="User Avatar"
+            className="username__avatar"
+          />
           <p className="username">{currentUser.name}</p>
         </div>
         <button

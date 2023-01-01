@@ -14,6 +14,7 @@ function ClothesSection({
   handlelikeClick,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
+
   return (
     <section className="user-profile__content">
       <div className="user-profile__content_row">
