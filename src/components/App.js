@@ -40,6 +40,8 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   const [isPopupActive, setIsPopupActive] = useState(false);
+  const [isCardLiked, setIsCardLiked] = useState(false); // nuevo
+
   const [isAddClothingPopupActive, setIsAddClothingPopupActive] =
     useState(false);
 
@@ -110,7 +112,6 @@ function App() {
   // ----------------- AUTORIZACIÓN USUARIO -----------------
 
   const handleAuthorize = () => {
-    // <-- ¿Debe integrarse en el Login?
     authorize(localStorage.getItem("jwt"))
       .then((user) => {
         if (user) {
@@ -170,6 +171,11 @@ function App() {
   };
 
   // ****** Popup Actions ******
+
+  // const handleCardLike = (card) => {
+  //   setSelectedCard(card);
+  //   setIsCardLiked("card__like_active");
+  // };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -299,6 +305,7 @@ function App() {
                   weather={weatherInfo}
                   cards={defaultClothing}
                   handleCardClick={handleCardClick}
+                  // handleCardLike={handleCardLike}
                   isLogged={isLogged}
                   currentUser={currentUser}
                   likeCard={likeCard}

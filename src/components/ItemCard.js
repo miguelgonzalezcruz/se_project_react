@@ -10,6 +10,10 @@ function ItemCard(props) {
     props.cardClick(props.card);
   };
 
+  // const cardLike = () => {
+  //   props.onLike(props.card);
+  // };
+
   return (
     <li>
       <div className="card__wrapper">
@@ -19,8 +23,10 @@ function ItemCard(props) {
           </div>
           <div className="card__like-container">
             <button
+              // className="card__like" esto es nuevo
               className={isLiked ? "card__like_active" : "card__like"}
               type="button"
+              // onClick={cardLike}  esto es nuevo
               onClick={props.onLike}
             ></button>
           </div>

@@ -5,7 +5,6 @@ import "../blocks/Main.css";
 import { weatherType } from "../utils/weatherApi";
 import { useContext } from "react";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
-import { likeCard, dislikeCard } from "../utils/api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function Main({
@@ -15,11 +14,10 @@ function Main({
   isLogged,
   onLike,
   handlelikeClick,
-  isLikedClass,
+  // handleCardLike,
 }) {
   const weatherToday = weather.temperature;
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
-  const [selectedCard, setSelectedCard] = React.useState({});
   const currentUser = React.useContext(CurrentUserContext);
 
   return (
@@ -46,10 +44,13 @@ function Main({
                 name={card.name}
                 image={card.imageUrl}
                 cardClick={handleCardClick}
+                // onLike={handleCardLike} nuevo
+                handlelikeClick
                 // onLike={onLike}
                 weather={card.weather}
                 isLogged={isLogged}
                 currentUser={currentUser}
+                // onLike={handlelikeClick}
                 onLike={() => {
                   handlelikeClick(
                     card._id,
