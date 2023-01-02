@@ -15,6 +15,7 @@ function Main({
   isLogged,
   onLike,
   handlelikeClick,
+  isLikedClass,
 }) {
   const weatherToday = weather.temperature;
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
