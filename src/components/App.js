@@ -162,7 +162,7 @@ function App() {
     removeItemsFromList(selectedCard._id)
       .then(() => {
         const newDefaultClothing = defaultClothing.filter(
-          (card) => card.id !== selectedCard.id
+          (cardId) => cardId.id !== selectedCard.id
         );
         setDefaultClothing(newDefaultClothing);
       })
@@ -171,11 +171,6 @@ function App() {
   };
 
   // ****** Popup Actions ******
-
-  // const handleCardLike = (card) => {
-  //   setSelectedCard(card);
-  //   setIsCardLiked("card__like_active");
-  // };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -245,32 +240,32 @@ function App() {
 
   // **** Like Actions ****
 
-  const handleLike = (card) => {
-    likeCard(card)
+  const handleLike = (cardId) => {
+    likeCard(cardId)
       .then((likedCard) => {
         setDefaultClothing((state) =>
-          state.map((c) => (c._id === card.id ? likedCard : c))
+          state.map((c) => (c._id === likedCard._id ? likedCard : c))
         );
       })
       .catch((err) => console.log(err));
   };
 
-  const handleDislike = (card) => {
-    dislikeCard(card)
+  const handleDislike = (cardId) => {
+    dislikeCard(cardId)
       .then((likedCard) => {
         setDefaultClothing((state) =>
-          state.map((c) => (c._id === card.id ? likedCard : c))
+          state.map((c) => (c._id === likedCard._id ? likedCard : c))
         );
       })
       .catch((err) => console.log(err));
   };
 
-  const handleLikeClick = (card, isLiked) => {
+  const handleLikeClick = (cardId, isLiked) => {
     const token = localStorage.getItem("jwt");
     if (isLiked) {
-      handleDislike(card, token);
+      handleDislike(cardId, token);
     } else {
-      handleLike(card, token);
+      handleLike(cardId, token);
     }
   };
 
