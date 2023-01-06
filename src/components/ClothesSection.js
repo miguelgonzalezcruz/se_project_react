@@ -37,15 +37,15 @@ function ClothesSection({
             currentUser={currentUser}
             likeCard={likeCard}
             dislikeCard={dislikeCard}
-            onLike={handlelikeClick}
+            // onLike={handlelikeClick}
 
-            // onLike={() => {
-            //   handlelikeClick(
-            //     card._id,
-            //     card.likes.includes(currentUser._id),
-            //     currentUser
-            //   );
-            // }}
+            onLike={() => {
+              handlelikeClick(
+                card._id,
+                card.likes.includes(currentUser._id),
+                currentUser
+              );
+            }}
           />
         ))}
       </ul>

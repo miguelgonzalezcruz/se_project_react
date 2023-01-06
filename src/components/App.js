@@ -158,6 +158,14 @@ function App() {
 
   // ----------------- DELETE CLOTHES -----------------
 
+  const recoverCards = () => {
+    getItemsFromList()
+      .then((cards) => {
+        setDefaultClothing(cards);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleDeleteItem = () => {
     removeItemsFromList(selectedCard._id)
       .then(() => {
@@ -165,6 +173,7 @@ function App() {
           (cardId) => cardId.id !== selectedCard.id
         );
         setDefaultClothing(newDefaultClothing);
+        recoverCards();
       })
       .then(handleClose)
       .catch((err) => console.log(err));
