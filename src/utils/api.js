@@ -32,8 +32,8 @@ const addItemsToList = (name, imageUrl, weather) => {
   }).then(handleApiResponse);
 };
 
-const removeItemsFromList = (id) => {
-  return fetch(`${baseURL}/items/${id}`, {
+const removeItemsFromList = (cardId) => {
+  return fetch(`${baseURL}/items/${cardId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
