@@ -9,9 +9,7 @@ function checkResponse(res) {
 }
 
 function request(url, options) {
-  return fetch(url, options)
-    .then(checkResponse)
-    .catch((err) => console.log(err));
+  return fetch(url, options).then(checkResponse);
 }
 
 const register = (email, password, name, avatar) => {

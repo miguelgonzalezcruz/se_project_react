@@ -67,10 +67,12 @@ function App() {
         console.log(res);
         handleLogin(res.email, password);
         setIsLogged(true);
-        setIsLoading(false);
       })
-      .then(handleClose())
-      .catch((err) => console.log(err));
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // ----------------- LOGIN USUARIO -----------------
@@ -83,10 +85,12 @@ function App() {
         console.log(res.token);
         handleAuthorize();
         setIsLogged(true);
-        setIsLoading(false);
       })
-      .then(handleClose())
-      .catch((err) => console.log(err));
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // ----------------- EDITAR PERFIL USUARIO -----------------
@@ -96,10 +100,12 @@ function App() {
     editProfile(name, avatar)
       .then((res) => {
         setCurrentUser(res);
-        setIsLoading(false);
       })
-      .then(handleClose())
-      .catch((err) => console.log(err));
+      .then(handleClose)
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // ----------------- AUTORIZACIÓN USUARIO -----------------
@@ -141,10 +147,12 @@ function App() {
       .then((card) => {
         setCardId(card);
         setDefaultClothing([card, ...defaultClothing]);
-        setIsLoading(false);
       })
       .then(handleClose)
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // ----------------- DELETE CLOTHES -----------------
@@ -165,10 +173,12 @@ function App() {
           (cardId) => cardId._id !== selectedCard._id
         );
         setDefaultClothing(newDefaultClothing);
-        setIsLoading(false);
       })
       .then(handleClose)
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // ****** Popup Actions ******
@@ -312,8 +322,7 @@ function App() {
                   handlelikeClick={handleLikeClick}
                 />
               </Route>
-              <ProtectedRoute isLogged={isLogged} path="/profile">
-                {isLogged ? <Redirect to="/profile" /> : <Redirect to="/" />}
+              <ProtectedRoute path="/profile" isLogged={isLogged}>
                 <Profile
                   openAddItemPopup={() => {
                     setIsPopupActive("newItemPopup");
