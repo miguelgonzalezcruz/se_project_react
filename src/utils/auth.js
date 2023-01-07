@@ -8,8 +8,14 @@ function checkResponse(res) {
   }
 }
 
+function request(url, options) {
+  return fetch(url, options)
+    .then(checkResponse)
+    .catch((err) => console.log(err));
+}
+
 const register = (email, password, name, avatar) => {
-  return fetch(`${baseURL}/signup`, {
+  return request(`${baseURL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,38 +26,38 @@ const register = (email, password, name, avatar) => {
       name,
       avatar,
     }),
-  }).then(checkResponse);
+  });
 };
 
 const login = (email, password) => {
-  return fetch(`${baseURL}/signin`, {
+  return request(`${baseURL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then(checkResponse);
+  });
 };
 
 const authorize = (token) => {
-  return fetch(`${baseURL}/users/me`, {
+  return request(`${baseURL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-  }).then(checkResponse);
+  });
 };
 
 const editProfile = (name, avatar) => {
-  return fetch(`${baseURL}/users/me`, {
+  return request(`${baseURL}/users/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
     body: JSON.stringify({ name, avatar }),
-  }).then(checkResponse);
+  });
 };
 
-export { register, editProfile, login, authorize };
+export { register, editProfile, login, authorize, checkResponse, request };

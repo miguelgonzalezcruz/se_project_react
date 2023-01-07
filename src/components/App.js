@@ -14,6 +14,7 @@ import RegisterModal from "./RegisterModal";
 import LoginModal from "./LoginModal";
 import EditProfileModal from "./EditProfileModal";
 import Footer from "./Footer";
+import ProtectedRoute from "./ProtectedRoute";
 
 // ----------- Utils -------------
 
@@ -57,56 +58,48 @@ function App() {
 
   const history = useHistory();
 
-  const closePopup = () => {
-    setIsPopupActive(false);
-  };
-
   // ----------------- REGISTRO NUEVO USUARIO -----------------
 
   const handleRegister = (email, password, name, avatar) => {
+    setIsLoading(true);
     register(email, password, name, avatar)
       .then((res) => {
         console.log(res);
         handleLogin(res.email, password);
         setIsLogged(true);
+        setIsLoading(false);
       })
-      .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
-        closePopup();
-      });
+      .then(handleClose())
+      .catch((err) => console.log(err));
   };
 
   // ----------------- LOGIN USUARIO -----------------
 
   const handleLogin = (email, password) => {
+    setIsLoading(true);
     login(email, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
         console.log(res.token);
         handleAuthorize();
         setIsLogged(true);
+        setIsLoading(false);
       })
-      .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
-        closePopup();
-      });
+      .then(handleClose())
+      .catch((err) => console.log(err));
   };
 
   // ----------------- EDITAR PERFIL USUARIO -----------------
 
   const handleEditProfile = (name, avatar) => {
+    setIsLoading(true);
     editProfile(name, avatar)
       .then((res) => {
         setCurrentUser(res);
-      })
-      .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
         setIsLoading(false);
-        closePopup();
-      });
+      })
+      .then(handleClose())
+      .catch((err) => console.log(err));
   };
 
   // ----------------- AUTORIZACIÓN USUARIO -----------------
@@ -143,37 +136,36 @@ function App() {
   // ----------------- ADD CLOTHES -----------------
 
   const handleAddItemSubmit = (name, weather, imageUrl) => {
-    console.log(name, weather, imageUrl);
+    setIsLoading(true);
     addItemsToList(name, weather, imageUrl)
       .then((card) => {
         setCardId(card);
         setDefaultClothing([card, ...defaultClothing]);
+        setIsLoading(false);
       })
       .then(handleClose)
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .catch((err) => console.log(err));
   };
 
   // ----------------- DELETE CLOTHES -----------------
 
-  const recoverCards = () => {
-    getItemsFromList()
-      .then((cards) => {
-        setDefaultClothing(cards);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const recoverCards = () => {
+  //   getItemsFromList()
+  //     .then((cards) => {
+  //       setDefaultClothing(cards);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const handleDeleteItem = () => {
+    setIsLoading(true);
     removeItemsFromList(selectedCard._id)
       .then(() => {
         const newDefaultClothing = defaultClothing.filter(
-          (cardId) => cardId.id !== selectedCard.id
+          (cardId) => cardId._id !== selectedCard._id
         );
         setDefaultClothing(newDefaultClothing);
-        recoverCards();
+        setIsLoading(false);
       })
       .then(handleClose)
       .catch((err) => console.log(err));
@@ -320,7 +312,7 @@ function App() {
                   handlelikeClick={handleLikeClick}
                 />
               </Route>
-              <Route isLogged={isLogged} path="/profile">
+              <ProtectedRoute isLogged={isLogged} path="/profile">
                 {isLogged ? <Redirect to="/profile" /> : <Redirect to="/" />}
                 <Profile
                   openAddItemPopup={() => {
@@ -344,7 +336,7 @@ function App() {
                   onLike={handleLikeClick}
                   handlelikeClick={handleLikeClick}
                 />
-              </Route>
+              </ProtectedRoute>
             </Switch>
 
             <Footer />

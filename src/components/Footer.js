@@ -4,7 +4,9 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__name-content">
-        <p className="footer__text">Developed by Miguel González | 2022</p>
+        <p className="footer__text">
+          Developed by Miguel González | {new Date().getFullYear()}
+        </p>
       </div>
       <div className="footer__text">
         Powered by{" "}
