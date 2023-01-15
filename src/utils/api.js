@@ -1,6 +1,11 @@
 import { request } from "./auth";
 
-const baseURL = "http://localhost:3001";
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "deployed-backend-url"
+    : "http://localhost:3001";
+
+// const baseURL = "http://localhost:3001";
 
 //https://my-json-server.typicode.com/miguelgonzalezcruz/se_project_react/items
 
@@ -15,15 +20,27 @@ const getItemsFromList = () => {
   });
 };
 
+// const addItemsToList = (name, imageUrl, weather) => {
+//   return request(`${baseURL}/items`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       authorization: `Bearer ${localStorage.getItem("jwt")}`,
+//     },
+//     body: JSON.stringify(name, imageUrl, weather),
+//   });
+// };
+
 const addItemsToList = (name, imageUrl, weather) => {
+  const body = JSON.stringify({ name, imageUrl, weather });
   return request(`${baseURL}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
-    body: JSON.stringify(name, imageUrl, weather),
-  });
+    body,
+  }).then(console.log);
 };
 
 const removeItemsFromList = (cardId) => {
