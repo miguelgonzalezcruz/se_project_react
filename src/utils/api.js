@@ -2,7 +2,7 @@ import { request } from "./auth";
 
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "deployed-backend-url"
+    ? "https://api.wtwrmgc.students.nomoredomainssbs.ru/"
     : "http://localhost:3001";
 
 // const baseURL = "http://localhost:3001";

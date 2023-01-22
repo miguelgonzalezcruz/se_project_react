@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && scp -r ./build/* miguel_glez_cruz@wtwrmgc.students.nomoredomainssbs.ru:/home/miguel_glez_cruz/frontend",
     "test": "jest"
   },
   "eslintConfig": {
