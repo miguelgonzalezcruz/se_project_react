@@ -1,6 +1,6 @@
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "https://api.wtwrmgc.students.nomoredomainssbs.ru/"
+    ? "https://api.wtwrmgc.students.nomoredomainssbs.ru"
     : "http://localhost:3001";
 
 // const baseURL = "http://localhost:3001";

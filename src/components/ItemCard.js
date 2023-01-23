@@ -4,7 +4,11 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function ItemCard(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const isLiked = props.card.likes.includes(currentUser._id);
+  // const isLiked = props.card.likes.includes(currentUser._id);
+  const currentUserId = currentUser._id || null;
+  const card = props.card || {};
+  const likes = card.likes || [];
+  const isLiked = likes.includes(currentUserId);
 
   const openModal = () => {
     props.cardClick(props.card);
