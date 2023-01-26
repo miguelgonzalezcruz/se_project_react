@@ -3,7 +3,7 @@ import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import "../blocks/App.css";
 
 // ----------- Components -------------
-
+// new test
 import Header from "./Header";
 import Main from "./Main";
 import Profile from "./Profile";
