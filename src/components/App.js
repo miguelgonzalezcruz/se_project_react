@@ -3,6 +3,7 @@ import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import "../blocks/App.css";
 
 // ----------- Components -------------
+// Just a comment to test the git
 
 import Header from "./Header";
 import Main from "./Main";
